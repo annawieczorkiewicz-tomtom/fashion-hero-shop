@@ -41,7 +41,7 @@ export default async function CollectionPage({ params }: PageProps) {
   return (
     <>
       <CollectionHero collection={collection} />
-      <CollectionView products={products} />
+      <CollectionView products={products} collectionName={collection.name} />
     </>
   );
 }
