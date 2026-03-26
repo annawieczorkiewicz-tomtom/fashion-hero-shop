@@ -19,7 +19,7 @@ export function SizeSelector({ sizes, selectedSize, onSelect }: SizeSelectorProp
         <button
           onClick={() => setSizeType("men")}
           className={cn(
-            "text-nav pb-2 mr-6 border-b-2 transition-colors",
+            "text-[12px] font-medium uppercase tracking-[0.5px] pb-2 mr-6 border-b-2 transition-colors",
             sizeType === "men"
               ? "border-charcoal text-charcoal"
               : "border-transparent text-warm-gray hover:text-charcoal"
@@ -30,7 +30,7 @@ export function SizeSelector({ sizes, selectedSize, onSelect }: SizeSelectorProp
         <button
           onClick={() => setSizeType("women")}
           className={cn(
-            "text-nav pb-2 border-b-2 transition-colors",
+            "text-[12px] font-medium uppercase tracking-[0.5px] pb-2 border-b-2 transition-colors",
             sizeType === "women"
               ? "border-charcoal text-charcoal"
               : "border-transparent text-warm-gray hover:text-charcoal"
@@ -40,17 +40,17 @@ export function SizeSelector({ sizes, selectedSize, onSelect }: SizeSelectorProp
         </button>
       </div>
 
-      {/* Size grid */}
+      {/* Size grid — cleaner pills */}
       <div className="grid grid-cols-4 gap-2">
         {sizes.map((size) => (
           <button
             key={size}
             onClick={() => onSelect(size)}
             className={cn(
-              "py-2.5 text-sm font-medium border transition-colors",
+              "py-2.5 text-[13px] font-medium rounded-sm transition-all",
               selectedSize === size
-                ? "bg-charcoal text-white border-charcoal"
-                : "bg-white border-border text-charcoal hover:border-charcoal"
+                ? "bg-charcoal text-white"
+                : "bg-white border border-border text-charcoal hover:border-charcoal"
             )}
           >
             {sizeType === "women" ? size : size}

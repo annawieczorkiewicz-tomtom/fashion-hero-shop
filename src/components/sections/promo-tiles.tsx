@@ -3,7 +3,7 @@ import Link from "next/link";
 const promos = [
   {
     title: "Trail Collection",
-    bg: "bg-cream-dark",
+    gradient: "linear-gradient(170deg, #3d5a3d 0%, #5c7a5c 40%, #8a9a7a 100%)",
     links: [
       { label: "SHOP MEN", href: "/collections/mens" },
       { label: "SHOP WOMEN", href: "/collections/womens" },
@@ -11,7 +11,7 @@ const promos = [
   },
   {
     title: "Everyday Essentials",
-    bg: "bg-cream-light",
+    gradient: "linear-gradient(170deg, #6b5b4a 0%, #a89279 40%, #c4b59a 100%)",
     links: [
       { label: "SHOP MEN", href: "/collections/mens" },
       { label: "SHOP WOMEN", href: "/collections/womens" },
@@ -19,7 +19,7 @@ const promos = [
   },
   {
     title: "Sale",
-    bg: "bg-cream",
+    gradient: "linear-gradient(170deg, #9e4040 0%, #c06060 40%, #d48a8a 100%)",
     links: [
       { label: "SHOP MEN", href: "/collections/sale" },
       { label: "SHOP WOMEN", href: "/collections/sale" },
@@ -34,16 +34,46 @@ export function PromoTiles() {
         {promos.map((promo) => (
           <div
             key={promo.title}
-            className={`${promo.bg} flex flex-col items-center justify-center py-20 px-6 text-center`}
+            className="relative overflow-hidden group"
+            style={{
+              background: promo.gradient,
+              aspectRatio: "3 / 4",
+            }}
           >
-            <div className="w-full h-32 bg-cream-dark/20 rounded-lg mb-6" />
-            <h3 className="text-lg font-semibold text-charcoal mb-4">{promo.title}</h3>
-            <div className="flex gap-3">
-              {promo.links.map((link, i) => (
-                <Link key={i} href={link.href} className="btn-cta-outline text-xs">
-                  {link.label}
-                </Link>
-              ))}
+            {/* Subtle light overlay on hover */}
+            <div className="absolute inset-0 bg-black/5 group-hover:bg-black/15 transition-colors duration-300" />
+
+            {/* Decorative shape */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <div
+                className="absolute opacity-[0.08]"
+                style={{
+                  width: "80%",
+                  height: "30%",
+                  top: "30%",
+                  left: "10%",
+                  background: "radial-gradient(ellipse at 50% 50%, white 0%, transparent 70%)",
+                  transform: "rotate(-3deg)",
+                }}
+              />
+            </div>
+
+            {/* Content at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 z-10 text-center">
+              <h3 className="text-xl font-normal text-white mb-4 tracking-wide">
+                {promo.title}
+              </h3>
+              <div className="flex gap-3 justify-center">
+                {promo.links.map((link, i) => (
+                  <Link
+                    key={i}
+                    href={link.href}
+                    className="inline-flex items-center justify-center px-5 py-2 text-[11px] font-medium uppercase tracking-[0.6px] text-white border border-white rounded-full hover:bg-white hover:text-charcoal transition-all duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         ))}

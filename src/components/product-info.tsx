@@ -56,8 +56,8 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-xs text-warm-gray">
+      {/* Breadcrumb — subtle */}
+      <nav className="flex items-center gap-1.5 text-[11px] text-warm-gray/70">
         <Link href="/" className="hover:text-charcoal transition-colors">
           Home
         </Link>
@@ -66,12 +66,12 @@ export function ProductInfo({ product }: ProductInfoProps) {
           {collectionName}
         </Link>
         <span>/</span>
-        <span className="text-charcoal">{product.name}</span>
+        <span className="text-charcoal/60">{product.name}</span>
       </nav>
 
       {/* Product name */}
       <div>
-        <h1 className="text-2xl md:text-3xl font-medium text-charcoal mb-2">
+        <h1 className="text-2xl md:text-3xl font-normal text-charcoal mb-2">
           {product.name}
         </h1>
         <StarRating rating={4.5} count={142} />
@@ -101,13 +101,13 @@ export function ProductInfo({ product }: ProductInfoProps) {
         onSelect={setSelectedSize}
       />
 
-      {/* Add to cart */}
+      {/* Add to cart — prominent dark button */}
       <button
         onClick={handleAddToCart}
         disabled={!selectedSize}
-        className="btn-cta w-full disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-full py-4 bg-charcoal text-white text-[12px] font-medium uppercase tracking-[0.6px] rounded-full hover:bg-charcoal-light transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {selectedSize ? "ADD TO CART" : "SELECT A SIZE"}
+        {selectedSize ? "ADD TO CART — $" + product.price : "SELECT A SIZE"}
       </button>
 
       {/* Shipping info */}

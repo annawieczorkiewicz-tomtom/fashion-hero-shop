@@ -24,29 +24,31 @@ export function Header({ onCartOpen, cartCount = 0 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-cream sticky top-0 z-50 border-b border-cream-dark">
-      <nav className="mx-auto flex h-14 items-center justify-between px-4 lg:px-8">
+    <header className="bg-white sticky top-0 z-50 border-b border-black/5">
+      <nav className="mx-auto flex h-14 items-center px-4 lg:px-8">
         {/* Mobile menu button */}
         <button
-          className="lg:hidden p-1"
+          className="lg:hidden p-1 mr-3"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
         >
           {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
 
-        {/* Logo */}
-        <Link href="/" className="text-lg font-semibold tracking-tight">
-          StepForward
+        {/* Logo — distinctive italic/script treatment */}
+        <Link href="/" className="mr-8">
+          <span className="text-xl font-semibold italic tracking-tight text-charcoal">
+            StepForward
+          </span>
         </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden lg:flex items-center gap-6">
+        {/* Desktop nav links — centered */}
+        <div className="hidden lg:flex items-center gap-6 flex-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-nav hover:opacity-60 transition-opacity"
+              className="text-[12px] font-medium uppercase tracking-[0.5px] text-charcoal hover:opacity-60 transition-opacity"
             >
               {link.label}
             </Link>
@@ -54,12 +56,12 @@ export function Header({ onCartOpen, cartCount = 0 }: HeaderProps) {
         </div>
 
         {/* Right side icons */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ml-auto">
           {secondaryLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="hidden lg:block text-sm hover:opacity-60 transition-opacity"
+              className="hidden lg:block text-[12px] text-charcoal hover:opacity-60 transition-opacity"
             >
               {link.label}
             </Link>
@@ -95,7 +97,7 @@ export function Header({ onCartOpen, cartCount = 0 }: HeaderProps) {
           mobileMenuOpen ? "max-h-60" : "max-h-0"
         )}
       >
-        <div className="px-4 py-4 space-y-3 border-t border-cream-dark">
+        <div className="px-4 py-4 space-y-3 border-t border-black/5">
           {navLinks.map((link) => (
             <Link
               key={link.href}

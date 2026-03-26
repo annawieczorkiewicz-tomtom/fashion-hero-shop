@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { CloseIcon, MinusIcon, PlusIcon } from "./icons";
 import type { CartItem } from "@/types";
@@ -85,10 +86,13 @@ export function CartDrawer({
             <div className="space-y-4">
               {items.map((item, index) => (
                 <div key={index} className="flex gap-3 pb-4 border-b border-cream-dark">
-                  {/* Thumbnail placeholder */}
-                  <div className="w-20 h-20 bg-cream-light rounded flex-shrink-0 flex items-center justify-center text-[10px] text-warm-gray/60">
-                    {item.product.name}
-                  </div>
+                  {/* Thumbnail with gradient */}
+                  <div
+                    className="w-20 h-20 rounded flex-shrink-0"
+                    style={{
+                      background: `radial-gradient(ellipse at 50% 55%, ${item.color.hex}44 0%, ${item.color.hex}22 35%, #ece9e2 65%)`,
+                    }}
+                  />
                   <div className="flex-1 min-w-0">
                     <h3 className="text-xs font-medium uppercase tracking-wide truncate">
                       {item.product.name}
@@ -137,7 +141,13 @@ export function CartDrawer({
             <p className="text-xs text-warm-gray mb-3">
               Shipping and taxes calculated at checkout.
             </p>
-            <button className="btn-cta w-full">CHECKOUT</button>
+            <Link
+              href="/checkout"
+              className="btn-cta w-full block text-center"
+              onClick={onClose}
+            >
+              CHECKOUT
+            </Link>
           </div>
         )}
       </div>

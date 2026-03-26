@@ -28,14 +28,19 @@ export function ProductCarousel() {
   };
 
   return (
-    <section className="py-10">
+    <section className="py-12">
+      {/* Section heading */}
+      <h2 className="text-[40px] font-normal text-charcoal text-center mb-2">
+        Our Favorites
+      </h2>
+
       {/* Tab buttons */}
       <div className="flex justify-center gap-6 mb-8">
         {tabs.map((tab) => (
           <button
             key={tab.value}
             onClick={() => setActiveTab(tab.value)}
-            className={`text-nav pb-1 border-b-2 transition-colors ${
+            className={`text-[12px] font-medium uppercase tracking-[0.5px] pb-1 border-b-2 transition-colors ${
               activeTab === tab.value
                 ? "border-charcoal text-charcoal"
                 : "border-transparent text-warm-gray hover:text-charcoal"
@@ -50,7 +55,7 @@ export function ProductCarousel() {
       <div className="relative px-4 md:px-8 lg:px-12">
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-sm hidden md:flex"
+          className="absolute left-2 top-1/3 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow-sm hidden md:flex items-center justify-center"
           aria-label="Scroll left"
         >
           <ChevronLeftIcon />
@@ -71,7 +76,7 @@ export function ProductCarousel() {
 
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-sm hidden md:flex"
+          className="absolute right-2 top-1/3 -translate-y-1/2 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow-sm hidden md:flex items-center justify-center"
           aria-label="Scroll right"
         >
           <ChevronRightIcon />

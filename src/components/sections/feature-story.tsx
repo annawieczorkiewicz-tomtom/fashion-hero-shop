@@ -2,13 +2,15 @@ import Link from "next/link";
 
 const spotlights = [
   {
-    bg: "bg-cream-dark",
+    gradient: "linear-gradient(160deg, #8a7d6b 0%, #c4b59a 40%, #e8dfd0 100%)",
+    label: "NATURALLY EASY",
     name: "Cloud Runner",
     tagline: "Our lightest shoe ever. Knit from recycled materials for all-day ease.",
     href: "/products/cloud-runner",
   },
   {
-    bg: "bg-cream-light",
+    gradient: "linear-gradient(160deg, #5c6b4f 0%, #8a9a7a 40%, #c5cfbb 100%)",
+    label: "LIGHT ON YOUR FEET",
     name: "Breeze Slip-On",
     tagline: "Slip in and go. Eucalyptus fiber keeps things cool, naturally.",
     href: "/products/breeze-slip-on",
@@ -18,21 +20,49 @@ const spotlights = [
 export function FeatureStory() {
   return (
     <section className="px-4 md:px-8 lg:px-12 py-10">
-      <h2 className="text-2xl md:text-3xl font-semibold text-charcoal text-center mb-8">
+      <h2 className="text-[40px] font-normal text-charcoal text-center mb-10 leading-tight">
         Your Easy, Breezy MVP
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {spotlights.map((item) => (
-          <div key={item.name} className={`${item.bg} flex flex-col items-center justify-center py-20 px-8 text-center`}>
-            <div className="w-48 h-32 bg-cream-dark/30 rounded-lg mb-6 flex items-center justify-center text-sm text-warm-gray/60">
-              {item.name}
+          <div
+            key={item.name}
+            className="relative overflow-hidden group"
+            style={{
+              background: item.gradient,
+              minHeight: "520px",
+            }}
+          >
+            {/* Decorative shoe-like shape */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <div
+                className="absolute opacity-[0.12]"
+                style={{
+                  width: "70%",
+                  height: "35%",
+                  top: "25%",
+                  left: "15%",
+                  background: "radial-gradient(ellipse at 50% 50%, white 0%, transparent 70%)",
+                  transform: "rotate(-5deg)",
+                }}
+              />
             </div>
-            <h3 className="text-lg font-semibold text-charcoal mb-2">{item.name}</h3>
-            <p className="text-sm text-warm-gray mb-6 max-w-xs">{item.tagline}</p>
-            <Link href={item.href} className="btn-cta-outline text-xs">
-              EXPLORE MORE
-            </Link>
+
+            {/* Content overlay at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
+              <p className="text-[11px] font-medium uppercase tracking-[0.8px] text-white/70 mb-2">
+                {item.label}
+              </p>
+              <h3 className="text-2xl font-normal text-white mb-2">{item.name}</h3>
+              <p className="text-sm text-white/80 mb-6 max-w-xs leading-relaxed">{item.tagline}</p>
+              <Link
+                href={item.href}
+                className="inline-flex items-center justify-center px-5 py-2 text-[11px] font-medium uppercase tracking-[0.6px] text-white border border-white rounded-full hover:bg-white hover:text-charcoal transition-all duration-200"
+              >
+                EXPLORE MORE
+              </Link>
+            </div>
           </div>
         ))}
       </div>

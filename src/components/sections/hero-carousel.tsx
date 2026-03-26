@@ -5,7 +5,11 @@ import Link from "next/link";
 import { heroSlides } from "@/data/products";
 import { PauseIcon, PlayIcon } from "@/components/icons";
 
-const slideBgColors = ["bg-cream-dark", "bg-cream", "bg-cream-light"];
+const slideGradients = [
+  "linear-gradient(135deg, #c4b59a 0%, #8a7d6b 40%, #5c6b4f 100%)",
+  "linear-gradient(160deg, #2a3a5c 0%, #4a6fa5 50%, #8aabcf 100%)",
+  "linear-gradient(145deg, #6b5b4a 0%, #a89279 40%, #d4cfc5 100%)",
+];
 
 export function HeroCarousel() {
   const [current, setCurrent] = useState(0);
@@ -25,41 +29,84 @@ export function HeroCarousel() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Slide content */}
+      {/* Slide content with rich gradient background */}
       <div
-        className={`${slideBgColors[current % slideBgColors.length]} transition-colors duration-700 flex flex-col items-center justify-center text-center px-6 py-24 md:py-36 lg:py-44`}
+        className="relative transition-all duration-700 flex items-end px-6 md:px-16 pb-16 md:pb-24"
+        style={{
+          background: slideGradients[current % slideGradients.length],
+          minHeight: "70vh",
+        }}
       >
-        <p className="text-label mb-3">{slide.subtitle}</p>
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-charcoal mb-8 max-w-2xl">
-          {slide.title}
-        </h1>
-        <div className="flex gap-3">
-          {slide.ctaLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="btn-cta">
-              {link.label}
-            </Link>
-          ))}
+        {/* Decorative overlay shapes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute w-[600px] h-[600px] rounded-full opacity-10"
+            style={{
+              background: "radial-gradient(circle, white 0%, transparent 70%)",
+              top: "10%",
+              right: "-10%",
+            }}
+          />
+          <div
+            className="absolute w-[400px] h-[400px] rounded-full opacity-8"
+            style={{
+              background: "radial-gradient(circle, white 0%, transparent 70%)",
+              bottom: "5%",
+              left: "10%",
+            }}
+          />
+          {/* Shoe silhouette shape */}
+          <div
+            className="absolute opacity-[0.07]"
+            style={{
+              width: "50%",
+              height: "40%",
+              top: "20%",
+              right: "5%",
+              background: "radial-gradient(ellipse at 60% 50%, white 0%, transparent 70%)",
+              transform: "rotate(-5deg)",
+            }}
+          />
+        </div>
+
+        {/* Text overlay at bottom-left */}
+        <div className="relative z-10 max-w-xl">
+          <p className="text-[11px] font-medium uppercase tracking-[0.6px] text-white/70 mb-3">
+            {slide.subtitle}
+          </p>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-normal tracking-[0.6px] text-white mb-8 leading-tight">
+            {slide.title}
+          </h1>
+          <div className="flex gap-3">
+            {slide.ctaLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="inline-flex items-center justify-center px-6 py-2.5 text-[12px] font-medium uppercase tracking-[0.6px] text-white border border-white rounded-full hover:bg-white hover:text-charcoal transition-all duration-200"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Bottom controls */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3">
-        {/* Dots */}
         {heroSlides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
             className={`w-2 h-2 rounded-full transition-colors ${
-              i === current ? "bg-charcoal" : "bg-charcoal/30"
+              i === current ? "bg-white" : "bg-white/40"
             }`}
             aria-label={`Go to slide ${i + 1}`}
           />
         ))}
 
-        {/* Pause / Play */}
         <button
           onClick={() => setPlaying((p) => !p)}
-          className="ml-2 p-1 text-charcoal/60 hover:text-charcoal transition-colors"
+          className="ml-2 p-1 text-white/60 hover:text-white transition-colors"
           aria-label={playing ? "Pause carousel" : "Play carousel"}
         >
           {playing ? <PauseIcon /> : <PlayIcon />}

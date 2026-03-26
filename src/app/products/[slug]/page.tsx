@@ -40,12 +40,13 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <main className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-10">
-      {/* Two-column layout: image left, info right */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+      {/* Two-column layout: image 60% left, info 40% right */}
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-8 md:gap-12">
         <ImageGallery
           images={product.images}
           productName={product.name}
           colorName={product.colors[0]?.name}
+          colorHex={product.colors[0]?.hex}
         />
         <ProductInfo product={product} />
       </div>

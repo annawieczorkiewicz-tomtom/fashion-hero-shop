@@ -7,6 +7,11 @@ interface ProductCardProps {
   className?: string;
 }
 
+/* Each product gets a unique gradient based on its first color hex */
+function productGradient(hex: string): string {
+  return `radial-gradient(ellipse at 50% 60%, ${hex}33 0%, ${hex}11 40%, #ece9e2 70%)`;
+}
+
 export function ProductCard({ product, className }: ProductCardProps) {
   const firstColor = product.colors[0];
   const badgeLabel = product.badge === "new"
@@ -22,25 +27,43 @@ export function ProductCard({ product, className }: ProductCardProps) {
   return (
     <div className={cn("group", className)}>
       <Link href={`/products/${product.slug}`} className="block">
-        {/* Image */}
-        <div className="relative aspect-square bg-cream-light overflow-hidden mb-3">
+        {/* Image area — full-bleed with gradient placeholder */}
+        <div className="relative aspect-square overflow-hidden mb-3">
           {badgeLabel && (
-            <span className="absolute top-3 left-3 text-[10px] font-medium uppercase tracking-wider bg-white px-2 py-1 z-10">
+            <span className="absolute top-3 left-3 text-[10px] font-medium uppercase tracking-wider bg-white/90 px-2 py-1 z-10">
               {badgeLabel}
             </span>
           )}
-          <div className="w-full h-full flex items-center justify-center text-warm-gray text-sm">
-            {/* Placeholder — replace with next/image when real images are added */}
-            <div className="w-3/4 h-3/4 rounded-lg bg-cream-dark/30 flex items-center justify-center text-xs text-warm-gray/60">
-              {product.name}
+          <div
+            className="w-full h-full flex items-center justify-center transition-transform duration-500 group-hover:scale-105"
+            style={{ background: productGradient(firstColor.hex) }}
+          >
+            {/* Shoe silhouette placeholder */}
+            <div className="relative w-3/5 h-2/5">
+              <div
+                className="absolute inset-0 rounded-[50%]"
+                style={{
+                  background: `linear-gradient(135deg, ${firstColor.hex}88 0%, ${firstColor.hex}44 100%)`,
+                  transform: "rotate(-8deg) scaleX(1.6)",
+                }}
+              />
+              <div
+                className="absolute top-[-20%] left-[10%] w-[50%] h-[70%] rounded-[40%_60%_30%_70%]"
+                style={{
+                  background: `linear-gradient(180deg, ${firstColor.hex}66 0%, ${firstColor.hex}33 100%)`,
+                  transform: "rotate(-15deg)",
+                }}
+              />
             </div>
           </div>
         </div>
 
         {/* Product info */}
         <div>
-          <h3 className="text-nav mb-0.5">{product.name}</h3>
-          <p className="text-xs text-warm-gray mb-1">{firstColor?.name}</p>
+          <h3 className="text-[12px] font-medium uppercase tracking-[0.5px] mb-0.5">
+            {product.name}
+          </h3>
+          <p className="text-[12px] text-warm-gray mb-1">{firstColor?.name}</p>
         </div>
       </Link>
 
@@ -58,7 +81,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
       {/* Price */}
       <div className="flex items-center gap-2">
-        <span className="text-price">${product.price}</span>
+        <span className="text-[14px] font-medium">${product.price}</span>
         {product.originalPrice && (
           <span className="text-xs text-warm-gray line-through">
             ${product.originalPrice}
