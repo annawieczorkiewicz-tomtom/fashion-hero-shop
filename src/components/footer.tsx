@@ -110,14 +110,14 @@ export function Footer() {
         {/* Bottom row */}
         <div className="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-6">
-            <span className="text-lg font-semibold italic tracking-tight">StepForward</span>
+            <span className="text-lg font-semibold italic tracking-tight">FashionHero</span>
             {/* Country selector */}
             <span className="text-xs text-white/40 border border-white/20 px-3 py-1 rounded">
               US ($)
             </span>
           </div>
           <p className="text-xs text-white/30">
-            &copy; {new Date().getFullYear()} StepForward, Inc. All Rights Reserved.
+            &copy; {new Date().getFullYear()} FashionHero, Inc. All Rights Reserved.
           </p>
         </div>
       </div>

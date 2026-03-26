@@ -29,6 +29,6 @@ https://www.allbirds.com
 Educational template for Wojtek's AI Product Heroes workshops. Students get a professional-looking ecommerce starting point to learn from and customize.
 
 ## Customization Plans
-- Generic "StepForward" branding instead of Allbirds
+- Generic "FashionHero" branding instead of Allbirds
 - Stock shoe images from Unsplash instead of Allbirds product photos
 - Hardcoded product data that students can swap to a real API

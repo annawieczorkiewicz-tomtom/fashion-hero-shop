@@ -36,7 +36,7 @@ export default function AccountPage() {
         Hello, {user.firstName}
       </h1>
       <p className="text-[13px] text-warm-gray mb-10">
-        Welcome back to your StepForward account.
+        Welcome back to your FashionHero account.
       </p>
 
       {/* Order History */}

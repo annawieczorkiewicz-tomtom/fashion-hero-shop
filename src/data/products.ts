@@ -922,7 +922,7 @@ export const products: Product[] = [
     ],
     sizes: [0],
     description: "Replacement insoles made from castor bean oil foam topped with tree-fiber. Fresh start for your favorite shoes.",
-    features: ["Castor bean foam base", "Tree-fiber top cloth", "Odor-resistant", "Fits all StepForward shoes"],
+    features: ["Castor bean foam base", "Tree-fiber top cloth", "Odor-resistant", "Fits all FashionHero shoes"],
     materials: "Base: Castor bean oil foam. Top: Eucalyptus tree fiber.",
     care: "Remove from shoe and air dry regularly. Spot clean.",
     images: ["/images/products/product-8.jpg"],

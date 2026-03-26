@@ -9,7 +9,7 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "StepForward — Comfortable, Sustainable Shoes",
+  title: "FashionHero — Comfortable, Sustainable Shoes",
   description:
     "Sustainable, supportive, and wildly comfortable shoes made from natural materials.",
 };

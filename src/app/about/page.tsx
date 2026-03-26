@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About — StepForward",
+  title: "About — FashionHero",
   description: "Our story: sustainable shoes made from natural materials.",
 };
 
@@ -16,7 +16,7 @@ const values = [
   {
     title: "Carbon Conscious",
     description:
-      "From materials to transport, we measure and reduce our carbon footprint at every step. Every pair of StepForward shoes comes with a smaller environmental impact.",
+      "From materials to transport, we measure and reduce our carbon footprint at every step. Every pair of FashionHero shoes comes with a smaller environmental impact.",
   },
   {
     title: "Designed to Last",
@@ -40,7 +40,7 @@ export default function AboutPage() {
       <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
         <Image
           src="/images/hero/hero-3.jpg"
-          alt="StepForward shoes"
+          alt="FashionHero shoes"
           fill
           className="object-cover"
           priority
@@ -64,7 +64,7 @@ export default function AboutPage() {
           OUR MISSION
         </p>
         <p className="text-xl md:text-2xl leading-relaxed text-charcoal">
-          StepForward was born from a simple question: why are shoes made from
+          FashionHero was born from a simple question: why are shoes made from
           petroleum? We set out to prove that comfort, style, and sustainability
           aren&apos;t trade-offs — they&apos;re the standard.
         </p>
@@ -91,7 +91,7 @@ export default function AboutPage() {
       <section className="relative h-[40vh] min-h-[300px] overflow-hidden">
         <Image
           src="/images/hero/hero-2.jpg"
-          alt="People running in StepForward shoes"
+          alt="People running in FashionHero shoes"
           fill
           className="object-cover"
         />

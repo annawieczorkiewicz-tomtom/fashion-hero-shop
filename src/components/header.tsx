@@ -38,7 +38,7 @@ export function Header({ onCartOpen, cartCount = 0, wishlistCount = 0 }: HeaderP
         {/* Logo */}
         <Link href="/" className="mr-8">
           <span className="text-xl font-semibold italic tracking-tight text-charcoal">
-            StepForward
+            FashionHero
           </span>
         </Link>
 

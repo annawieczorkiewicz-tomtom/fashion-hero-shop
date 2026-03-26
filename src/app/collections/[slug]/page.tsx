@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${collection.name} | StepForward`,
+    title: `${collection.name} | FashionHero`,
     description: collection.description,
   };
 }

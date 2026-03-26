@@ -10,10 +10,10 @@ export function LogoIcon({ className }: IconProps) {
       viewBox="0 0 120 24"
       fill="currentColor"
       className={cn("h-6", className)}
-      aria-label="StepForward"
+      aria-label="FashionHero"
     >
       <text x="0" y="18" fontFamily="inherit" fontSize="16" fontWeight="600" letterSpacing="0.5">
-        StepForward
+        FashionHero
       </text>
     </svg>
   );
