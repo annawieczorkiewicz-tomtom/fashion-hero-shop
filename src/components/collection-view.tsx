@@ -139,9 +139,11 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
       )}
 
       <div className="flex gap-10">
-        {/* Desktop sidebar */}
+        {/* Desktop sidebar — sticky */}
         <div className="hidden lg:block w-[220px] flex-shrink-0">
-          <FilterSidebar {...sidebarProps} />
+          <div className="sticky top-[93px] max-h-[calc(100vh-110px)] overflow-y-auto scrollbar-hide">
+            <FilterSidebar {...sidebarProps} />
+          </div>
         </div>
 
         {/* Main content */}
