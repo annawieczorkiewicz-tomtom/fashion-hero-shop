@@ -13,7 +13,7 @@ const navLinks = [
 ];
 
 const secondaryLinks = [
-  { label: "About", href: "#" },
+  { label: "About", href: "/about" },
 ];
 
 interface HeaderProps {
@@ -76,7 +76,8 @@ export function Header({ onCartOpen, cartCount = 0, wishlistCount = 0 }: HeaderP
           >
             <SearchIcon />
           </button>
-          <button
+          <Link
+            href="/wishlist"
             aria-label="Wishlist"
             className="hidden sm:block p-1 hover:opacity-60 transition-opacity relative"
           >
@@ -86,7 +87,7 @@ export function Header({ onCartOpen, cartCount = 0, wishlistCount = 0 }: HeaderP
                 {wishlistCount}
               </span>
             )}
-          </button>
+          </Link>
           <Link href="#" aria-label="Account" className="hidden sm:block p-1 hover:opacity-60 transition-opacity">
             <UserIcon />
           </Link>
