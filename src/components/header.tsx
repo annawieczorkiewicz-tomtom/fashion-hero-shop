@@ -1,0 +1,123 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { SearchIcon, UserIcon, CartIcon, HelpIcon, MenuIcon, CloseIcon } from "./icons";
+
+const navLinks = [
+  { label: "MEN", href: "/collections/mens" },
+  { label: "WOMEN", href: "/collections/womens" },
+  { label: "SALE", href: "/collections/sale" },
+];
+
+const secondaryLinks = [
+  { label: "About", href: "#" },
+];
+
+interface HeaderProps {
+  onCartOpen?: () => void;
+  cartCount?: number;
+}
+
+export function Header({ onCartOpen, cartCount = 0 }: HeaderProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  return (
+    <header className="bg-cream sticky top-0 z-50 border-b border-cream-dark">
+      <nav className="mx-auto flex h-14 items-center justify-between px-4 lg:px-8">
+        {/* Mobile menu button */}
+        <button
+          className="lg:hidden p-1"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+        </button>
+
+        {/* Logo */}
+        <Link href="/" className="text-lg font-semibold tracking-tight">
+          StepForward
+        </Link>
+
+        {/* Desktop nav links */}
+        <div className="hidden lg:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-nav hover:opacity-60 transition-opacity"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Right side icons */}
+        <div className="flex items-center gap-3">
+          {secondaryLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="hidden lg:block text-sm hover:opacity-60 transition-opacity"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <button aria-label="Search" className="p-1 hover:opacity-60 transition-opacity">
+            <SearchIcon />
+          </button>
+          <Link href="#" aria-label="Account" className="hidden sm:block p-1 hover:opacity-60 transition-opacity">
+            <UserIcon />
+          </Link>
+          <Link href="#" aria-label="Help" className="hidden lg:block p-1 hover:opacity-60 transition-opacity">
+            <HelpIcon />
+          </Link>
+          <button
+            aria-label="View Cart"
+            className="p-1 hover:opacity-60 transition-opacity relative"
+            onClick={onCartOpen}
+          >
+            <CartIcon />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-charcoal text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile menu */}
+      <div
+        className={cn(
+          "lg:hidden overflow-hidden transition-all duration-300",
+          mobileMenuOpen ? "max-h-60" : "max-h-0"
+        )}
+      >
+        <div className="px-4 py-4 space-y-3 border-t border-cream-dark">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="block text-nav"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+          {secondaryLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="block text-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </header>
+  );
+}

@@ -1,41 +1,34 @@
 # Target Website
 
 ## URL
-<!-- Replace with the URL of the website you're reverse-engineering -->
-https://example.com
+https://www.allbirds.com
 
 ## Scope
 
 ### Pages to Replicate
-<!-- List every page you want to rebuild. Be specific. -->
-- [ ] Home page
-- [ ] (add more pages here)
+- [x] Home page
+- [x] Product Listing Page (/collections/[slug])
+- [x] Product Detail Page (/products/[slug])
 
 ### Fidelity Level
-<!-- Choose one -->
-- [ ] **Pixel-perfect** — exact match in colors, spacing, typography, animations
-- [ ] **High fidelity** — visually similar, same layout and feel, minor deviations OK
-- [ ] **Structural** — same layout and components, custom styling acceptable
+- [x] **High fidelity** — visually similar, same layout and feel, minor deviations OK
 
 ### In Scope
-<!-- What you're building -->
-- Visual layout and styling
+- Visual layout and styling (Allbirds design patterns)
 - Component structure and interactions
-- Responsive design
-- Mock data for demo purposes
+- Responsive design (desktop, tablet, mobile)
+- Generic placeholder data (no Allbirds IP)
 
 ### Out of Scope
-<!-- What you're NOT building -->
 - Real backend / database
 - Authentication
-- Real-time features
-- SEO optimization
-- Accessibility audit (unless specifically needed)
+- Real payments
+- Allbirds branding, product names, or product images
 
 ## Why
-<!-- Brief explanation of why you're cloning this site -->
-(Fill in your reason — portfolio piece, learning exercise, demo, template for custom features, etc.)
+Educational template for Wojtek's AI Product Heroes workshops. Students get a professional-looking ecommerce starting point to learn from and customize.
 
 ## Customization Plans
-<!-- After the base emulation, what changes do you want to make? -->
-- (List planned modifications or say "none — pure emulation")
+- Generic "StepForward" branding instead of Allbirds
+- Stock shoe images from Unsplash instead of Allbirds product photos
+- Hardcoded product data that students can swap to a real API
