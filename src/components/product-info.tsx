@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { Product, ProductColor } from "@/types";
 import { StarIcon } from "@/components/icons";
 import { ColorSwatches } from "@/components/color-swatches";
 import { SizeSelector } from "@/components/size-selector";
 import { useCart } from "@/components/cart-provider";
+import { WishlistButton } from "@/components/wishlist-button";
 
 interface ProductInfoProps {
   product: Product;
@@ -32,10 +33,34 @@ function StarRating({ rating, count }: { rating: number; count: number }) {
   );
 }
 
+/** Deterministic stock level based on product id */
+function getStockInfo(productId: string): { inStock: boolean; lowStock: boolean; quantity: number } {
+  const hash = productId.charCodeAt(0) + (productId.charCodeAt(1) || 0);
+  const quantity = (hash % 20) + 1;
+  return {
+    inStock: true,
+    lowStock: quantity <= 5,
+    quantity,
+  };
+}
+
+function getEstimatedDelivery(): string {
+  const now = new Date();
+  const minDays = 5;
+  const maxDays = 7;
+  const startDate = new Date(now.getTime() + minDays * 86400000);
+  const endDate = new Date(now.getTime() + maxDays * 86400000);
+  const fmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+  return `${fmt.format(startDate)} - ${fmt.format(endDate)}`;
+}
+
 export function ProductInfo({ product }: ProductInfoProps) {
   const [selectedColor, setSelectedColor] = useState<ProductColor>(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const { addItem } = useCart();
+
+  const stock = useMemo(() => getStockInfo(product.id), [product.id]);
+  const deliveryDate = useMemo(() => getEstimatedDelivery(), []);
 
   const collectionName = product.category === "men"
     ? "Men's Shoes"
@@ -69,11 +94,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
         <span className="text-charcoal/60">{product.name}</span>
       </nav>
 
-      {/* Product name */}
+      {/* Product name + wishlist */}
       <div>
-        <h1 className="text-2xl md:text-3xl font-normal text-charcoal mb-2">
-          {product.name}
-        </h1>
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-2xl md:text-3xl font-normal text-charcoal mb-2">
+            {product.name}
+          </h1>
+          <WishlistButton productId={product.id} className="mt-1 flex-shrink-0" />
+        </div>
         <StarRating rating={4.5} count={142} />
       </div>
 
@@ -84,6 +112,25 @@ export function ProductInfo({ product }: ProductInfoProps) {
           <span className="text-sm text-warm-gray line-through">
             ${product.originalPrice}
           </span>
+        )}
+      </div>
+
+      {/* Stock indicator */}
+      <div className="flex items-center gap-2">
+        {stock.lowStock ? (
+          <>
+            <span className="inline-block w-2 h-2 rounded-full bg-amber-500" />
+            <span className="text-xs text-amber-700 font-medium">
+              Low Stock — Only {stock.quantity} left
+            </span>
+          </>
+        ) : (
+          <>
+            <span className="inline-block w-2 h-2 rounded-full bg-green-500" />
+            <span className="text-xs text-green-700 font-medium">
+              In Stock — Ready to Ship
+            </span>
+          </>
         )}
       </div>
 
@@ -114,6 +161,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
       <div className="flex flex-col gap-2 pt-2 border-t border-border">
         <p className="text-xs text-warm-gray">
           Free Shipping on Orders over $75
+        </p>
+        <p className="text-xs text-warm-gray">
+          Estimated delivery: {deliveryDate}
         </p>
         <p className="text-xs text-warm-gray">
           Easy Returns

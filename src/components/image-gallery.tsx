@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
 interface ImageGalleryProps {
@@ -12,8 +12,6 @@ interface ImageGalleryProps {
 
 /* Generate gradient placeholders that look intentional */
 function galleryGradient(hex: string, index: number): string {
-  const angles = [135, 160, 120, 145];
-  const angle = angles[index % angles.length];
   return `radial-gradient(ellipse at 50% 55%, ${hex}44 0%, ${hex}22 35%, #ece9e2 65%)`;
 }
 
@@ -26,18 +24,39 @@ function shoeShape(hex: string, angle: number) {
 
 export function ImageGallery({ images, productName, colorName, colorHex = "#8a7d6b" }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isZooming, setIsZooming] = useState(false);
+  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
+  const mainRef = useRef<HTMLDivElement>(null);
 
   const shapes = shoeShape(colorHex, 135 + selectedIndex * 15);
 
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!mainRef.current) return;
+    const rect = mainRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setZoomPos({ x, y });
+  }, []);
+
   return (
     <div className="flex flex-col gap-3">
-      {/* Main image — larger and more prominent */}
+      {/* Main image — larger and more prominent, with zoom on hover */}
       <div
-        className="relative aspect-square overflow-hidden"
+        ref={mainRef}
+        className="relative aspect-square overflow-hidden cursor-zoom-in"
+        onMouseEnter={() => setIsZooming(true)}
+        onMouseLeave={() => setIsZooming(false)}
+        onMouseMove={handleMouseMove}
         style={{ background: galleryGradient(colorHex, selectedIndex) }}
       >
-        {/* Shoe silhouette placeholder */}
-        <div className="absolute inset-0 flex items-center justify-center">
+        {/* Shoe silhouette placeholder — zooms on hover */}
+        <div
+          className="absolute inset-0 flex items-center justify-center transition-transform duration-200 ease-out"
+          style={{
+            transform: isZooming ? `scale(2)` : "scale(1)",
+            transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
+          }}
+        >
           <div className="relative w-3/5 h-2/5">
             <div
               className="absolute inset-0 rounded-[50%]"

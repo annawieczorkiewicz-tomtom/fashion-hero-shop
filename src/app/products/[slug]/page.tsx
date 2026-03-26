@@ -5,6 +5,7 @@ import { ImageGallery } from "@/components/image-gallery";
 import { ProductInfo } from "@/components/product-info";
 import { ProductDetailsAccordion } from "@/components/product-details-accordion";
 import { RelatedProducts } from "@/components/related-products";
+import { RecentlyViewedSection } from "./recently-viewed-section";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -58,6 +59,9 @@ export default async function ProductPage({ params }: PageProps) {
 
       {/* Related products */}
       <RelatedProducts products={related} />
+
+      {/* Recently viewed */}
+      <RecentlyViewedSection productId={product.id} />
     </main>
   );
 }

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { SearchIcon, UserIcon, CartIcon, HelpIcon, MenuIcon, CloseIcon } from "./icons";
+import { SearchIcon, UserIcon, CartIcon, HelpIcon, MenuIcon, CloseIcon, HeartIcon } from "./icons";
+import { SearchModal } from "./search-modal";
 
 const navLinks = [
   { label: "MEN", href: "/collections/mens" },
@@ -18,10 +19,12 @@ const secondaryLinks = [
 interface HeaderProps {
   onCartOpen?: () => void;
   cartCount?: number;
+  wishlistCount?: number;
 }
 
-export function Header({ onCartOpen, cartCount = 0 }: HeaderProps) {
+export function Header({ onCartOpen, cartCount = 0, wishlistCount = 0 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <header className="bg-white sticky top-0 z-50 border-b border-black/5">
@@ -66,8 +69,23 @@ export function Header({ onCartOpen, cartCount = 0 }: HeaderProps) {
               {link.label}
             </Link>
           ))}
-          <button aria-label="Search" className="p-1 hover:opacity-60 transition-opacity">
+          <button
+            aria-label="Search"
+            className="p-1 hover:opacity-60 transition-opacity"
+            onClick={() => setSearchOpen(true)}
+          >
             <SearchIcon />
+          </button>
+          <button
+            aria-label="Wishlist"
+            className="hidden sm:block p-1 hover:opacity-60 transition-opacity relative"
+          >
+            <HeartIcon className="h-5 w-5" />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                {wishlistCount}
+              </span>
+            )}
           </button>
           <Link href="#" aria-label="Account" className="hidden sm:block p-1 hover:opacity-60 transition-opacity">
             <UserIcon />
@@ -120,6 +138,9 @@ export function Header({ onCartOpen, cartCount = 0 }: HeaderProps) {
           ))}
         </div>
       </div>
+
+      {/* Search Modal */}
+      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }

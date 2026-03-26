@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/types";
+import { WishlistButton } from "./wishlist-button";
+import { useQuickView } from "./quick-view-provider";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +18,7 @@ function productGradient(hex: string): string {
 
 export function ProductCard({ product, className }: ProductCardProps) {
   const firstColor = product.colors[0];
+  const { openQuickView } = useQuickView();
   const badgeLabel = product.badge === "new"
     ? "NEW"
     : product.badge === "new-color"
@@ -26,38 +31,59 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
   return (
     <div className={cn("group", className)}>
-      <Link href={`/products/${product.slug}`} className="block">
-        {/* Image area — full-bleed with gradient placeholder */}
-        <div className="relative aspect-square overflow-hidden mb-3">
-          {badgeLabel && (
-            <span className="absolute top-3 left-3 text-[10px] font-medium uppercase tracking-wider bg-white/90 px-2 py-1 z-10">
-              {badgeLabel}
-            </span>
-          )}
-          <div
-            className="w-full h-full flex items-center justify-center transition-transform duration-500 group-hover:scale-105"
-            style={{ background: productGradient(firstColor.hex) }}
-          >
-            {/* Shoe silhouette placeholder */}
-            <div className="relative w-3/5 h-2/5">
-              <div
-                className="absolute inset-0 rounded-[50%]"
-                style={{
-                  background: `linear-gradient(135deg, ${firstColor.hex}88 0%, ${firstColor.hex}44 100%)`,
-                  transform: "rotate(-8deg) scaleX(1.6)",
-                }}
-              />
-              <div
-                className="absolute top-[-20%] left-[10%] w-[50%] h-[70%] rounded-[40%_60%_30%_70%]"
-                style={{
-                  background: `linear-gradient(180deg, ${firstColor.hex}66 0%, ${firstColor.hex}33 100%)`,
-                  transform: "rotate(-15deg)",
-                }}
-              />
+      <div className="relative">
+        <Link href={`/products/${product.slug}`} className="block">
+          {/* Image area — full-bleed with gradient placeholder */}
+          <div className="relative aspect-square overflow-hidden mb-3">
+            {badgeLabel && (
+              <span className="absolute top-3 left-3 text-[10px] font-medium uppercase tracking-wider bg-white/90 px-2 py-1 z-10">
+                {badgeLabel}
+              </span>
+            )}
+            <div
+              className="w-full h-full flex items-center justify-center transition-transform duration-500 group-hover:scale-105"
+              style={{ background: productGradient(firstColor.hex) }}
+            >
+              {/* Shoe silhouette placeholder */}
+              <div className="relative w-3/5 h-2/5">
+                <div
+                  className="absolute inset-0 rounded-[50%]"
+                  style={{
+                    background: `linear-gradient(135deg, ${firstColor.hex}88 0%, ${firstColor.hex}44 100%)`,
+                    transform: "rotate(-8deg) scaleX(1.6)",
+                  }}
+                />
+                <div
+                  className="absolute top-[-20%] left-[10%] w-[50%] h-[70%] rounded-[40%_60%_30%_70%]"
+                  style={{
+                    background: `linear-gradient(180deg, ${firstColor.hex}66 0%, ${firstColor.hex}33 100%)`,
+                    transform: "rotate(-15deg)",
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        </div>
 
+            {/* Quick View button — desktop only, on hover */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openQuickView(product);
+              }}
+              className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-white/90 px-4 py-2 text-[10px] font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden md:block hover:bg-white z-10"
+            >
+              QUICK VIEW
+            </button>
+          </div>
+        </Link>
+
+        {/* Wishlist button — top-right, shows on hover */}
+        <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 md:block hidden">
+          <WishlistButton productId={product.id} className="bg-white/90 rounded-full p-1.5 hover:bg-white" />
+        </div>
+      </div>
+
+      <Link href={`/products/${product.slug}`} className="block">
         {/* Product info */}
         <div>
           <h3 className="text-[12px] font-medium uppercase tracking-[0.5px] mb-0.5">
