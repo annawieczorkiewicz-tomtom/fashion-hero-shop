@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { heroSlides } from "@/data/products";
 import { PauseIcon, PlayIcon } from "@/components/icons";
 
@@ -29,7 +30,7 @@ export function HeroCarousel() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Slide content with rich gradient background */}
+      {/* Slide content with image background */}
       <div
         className="relative transition-all duration-700 flex items-end px-6 md:px-16 pb-16 md:pb-24"
         style={{
@@ -37,37 +38,19 @@ export function HeroCarousel() {
           minHeight: "70vh",
         }}
       >
-        {/* Decorative overlay shapes */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div
-            className="absolute w-[600px] h-[600px] rounded-full opacity-10"
-            style={{
-              background: "radial-gradient(circle, white 0%, transparent 70%)",
-              top: "10%",
-              right: "-10%",
-            }}
+        {/* Background image */}
+        {slide.image.startsWith("/images/") && (
+          <Image
+            src={slide.image}
+            alt={slide.title}
+            fill
+            className="object-cover"
+            priority
           />
-          <div
-            className="absolute w-[400px] h-[400px] rounded-full opacity-8"
-            style={{
-              background: "radial-gradient(circle, white 0%, transparent 70%)",
-              bottom: "5%",
-              left: "10%",
-            }}
-          />
-          {/* Shoe silhouette shape */}
-          <div
-            className="absolute opacity-[0.07]"
-            style={{
-              width: "50%",
-              height: "40%",
-              top: "20%",
-              right: "5%",
-              background: "radial-gradient(ellipse at 60% 50%, white 0%, transparent 70%)",
-              transform: "rotate(-5deg)",
-            }}
-          />
-        </div>
+        )}
+
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/30" />
 
         {/* Text overlay at bottom-left */}
         <div className="relative z-10 max-w-xl">

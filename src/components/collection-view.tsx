@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { FilterBar, type GenderFilter, type SortOption, type PriceRange } from "@/components/filter-bar";
 import { ProductGrid } from "@/components/product-grid";
-import type { Product } from "@/types";
+import type { Product, ShoeType, ShoeMaterial } from "@/types";
 
 interface CollectionViewProps {
   products: Product[];
@@ -13,6 +13,8 @@ export function CollectionView({ products }: CollectionViewProps) {
   const [gender, setGender] = useState<GenderFilter>("all");
   const [sort, setSort] = useState<SortOption>("featured");
   const [priceRange, setPriceRange] = useState<PriceRange>("all");
+  const [shoeTypes, setShoeTypes] = useState<ShoeType[]>([]);
+  const [materials, setMaterials] = useState<ShoeMaterial[]>([]);
 
   const filtered = useMemo(() => {
     let result = products;
@@ -31,6 +33,16 @@ export function CollectionView({ products }: CollectionViewProps) {
       result = result.filter((p) => p.price >= 100 && p.price <= 130);
     } else if (priceRange === "over-130") {
       result = result.filter((p) => p.price > 130);
+    }
+
+    // Shoe type filter (OR within type, AND with other filters)
+    if (shoeTypes.length > 0) {
+      result = result.filter((p) => shoeTypes.includes(p.type));
+    }
+
+    // Material filter (OR within material, AND with other filters)
+    if (materials.length > 0) {
+      result = result.filter((p) => materials.includes(p.material));
     }
 
     // Sort
@@ -52,10 +64,13 @@ export function CollectionView({ products }: CollectionViewProps) {
     }
 
     return result;
-  }, [products, gender, sort, priceRange]);
+  }, [products, gender, sort, priceRange, shoeTypes, materials]);
 
   const activeFilterCount =
-    (gender !== "all" ? 1 : 0) + (priceRange !== "all" ? 1 : 0);
+    (gender !== "all" ? 1 : 0) +
+    (priceRange !== "all" ? 1 : 0) +
+    (shoeTypes.length > 0 ? 1 : 0) +
+    (materials.length > 0 ? 1 : 0);
 
   return (
     <>
@@ -64,6 +79,8 @@ export function CollectionView({ products }: CollectionViewProps) {
         onFilterChange={setGender}
         onSortChange={setSort}
         onPriceRangeChange={setPriceRange}
+        onShoeTypeChange={setShoeTypes}
+        onMaterialChange={setMaterials}
         activeFilterCount={activeFilterCount}
       />
       {filtered.length === 0 ? (

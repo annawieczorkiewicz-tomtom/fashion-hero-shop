@@ -1,8 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const spotlights = [
   {
     gradient: "linear-gradient(160deg, #8a7d6b 0%, #c4b59a 40%, #e8dfd0 100%)",
+    image: "/images/products/product-9.jpg",
     label: "NATURALLY EASY",
     name: "Cloud Runner",
     tagline: "Our lightest shoe ever. Knit from recycled materials for all-day ease.",
@@ -10,6 +12,7 @@ const spotlights = [
   },
   {
     gradient: "linear-gradient(160deg, #5c6b4f 0%, #8a9a7a 40%, #c5cfbb 100%)",
+    image: "/images/products/product-15.jpg",
     label: "LIGHT ON YOUR FEET",
     name: "Breeze Slip-On",
     tagline: "Slip in and go. Eucalyptus fiber keeps things cool, naturally.",
@@ -34,20 +37,16 @@ export function FeatureStory() {
               minHeight: "520px",
             }}
           >
-            {/* Decorative shoe-like shape */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <div
-                className="absolute opacity-[0.12]"
-                style={{
-                  width: "70%",
-                  height: "35%",
-                  top: "25%",
-                  left: "15%",
-                  background: "radial-gradient(ellipse at 50% 50%, white 0%, transparent 70%)",
-                  transform: "rotate(-5deg)",
-                }}
-              />
-            </div>
+            {/* Background image */}
+            <Image
+              src={item.image}
+              alt={item.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
             {/* Content overlay at bottom */}
             <div className="absolute bottom-0 left-0 right-0 p-8 z-10">

@@ -8,10 +8,15 @@ export const products: Product[] = [
     category: "men",
     collections: ["mens", "new-arrivals", "best-sellers"],
     price: 120,
+    type: "runner",
+    material: "mesh",
+    rating: 4.7,
+    reviewCount: 312,
+    tags: ["breathable", "lightweight", "machine-washable"],
     colors: [
-      { name: "Jet Black", hex: "#1a1a1a", image: "/images/products/cloud-runner-black.jpg" },
-      { name: "Stone White", hex: "#f0ede6", image: "/images/products/cloud-runner-white.jpg" },
-      { name: "Olive", hex: "#5c6b4f", image: "/images/products/cloud-runner-olive.jpg" },
+      { name: "Jet Black", hex: "#1a1a1a", image: "/images/products/product-1.jpg" },
+      { name: "Stone White", hex: "#f0ede6", image: "/images/products/product-9.jpg" },
+      { name: "Olive", hex: "#5c6b4f", image: "/images/products/product-3.jpg" },
     ],
     sizes: [7, 8, 9, 10, 11, 12, 13],
     description:
@@ -21,10 +26,9 @@ export const products: Product[] = [
     care: "Remove insoles and laces. Machine wash cold on gentle cycle. Air dry.",
     badge: "bestseller",
     images: [
-      "/images/products/cloud-runner-black.jpg",
-      "/images/products/cloud-runner-black-side.jpg",
-      "/images/products/cloud-runner-black-top.jpg",
-      "/images/products/cloud-runner-black-back.jpg",
+      "/images/products/product-1.jpg",
+      "/images/products/product-10.jpg",
+      "/images/products/product-9.jpg",
     ],
   },
   {
@@ -34,10 +38,15 @@ export const products: Product[] = [
     category: "women",
     collections: ["womens", "new-arrivals", "best-sellers"],
     price: 120,
+    type: "runner",
+    material: "mesh",
+    rating: 4.8,
+    reviewCount: 287,
+    tags: ["breathable", "lightweight", "machine-washable"],
     colors: [
-      { name: "Blush Pink", hex: "#d4a5a5", image: "/images/products/cloud-runner-w-pink.jpg" },
-      { name: "Stone White", hex: "#f0ede6", image: "/images/products/cloud-runner-w-white.jpg" },
-      { name: "Navy", hex: "#2a3a5c", image: "/images/products/cloud-runner-w-navy.jpg" },
+      { name: "Blush Pink", hex: "#d4a5a5", image: "/images/products/product-12.jpg" },
+      { name: "Stone White", hex: "#f0ede6", image: "/images/products/product-11.jpg" },
+      { name: "Navy", hex: "#2a3a5c", image: "/images/products/product-13.jpg" },
     ],
     sizes: [5, 6, 7, 8, 9, 10, 11],
     description:
@@ -47,9 +56,9 @@ export const products: Product[] = [
     care: "Remove insoles and laces. Machine wash cold on gentle cycle. Air dry.",
     badge: "bestseller",
     images: [
-      "/images/products/cloud-runner-w-pink.jpg",
-      "/images/products/cloud-runner-w-pink-side.jpg",
-      "/images/products/cloud-runner-w-pink-top.jpg",
+      "/images/products/product-12.jpg",
+      "/images/products/product-11.jpg",
+      "/images/products/product-13.jpg",
     ],
   },
   {
@@ -59,9 +68,14 @@ export const products: Product[] = [
     category: "men",
     collections: ["mens", "new-arrivals"],
     price: 140,
+    type: "hiker",
+    material: "wool",
+    rating: 4.5,
+    reviewCount: 178,
+    tags: ["water-resistant", "trail-ready", "durable", "grippy"],
     colors: [
-      { name: "Forest Green", hex: "#3d5a3d", image: "/images/products/trail-pacer-green.jpg" },
-      { name: "Charcoal", hex: "#333333", image: "/images/products/trail-pacer-charcoal.jpg" },
+      { name: "Forest Green", hex: "#3d5a3d", image: "/images/products/product-3.jpg" },
+      { name: "Charcoal", hex: "#333333", image: "/images/products/product-7.jpg" },
     ],
     sizes: [7, 8, 9, 10, 11, 12, 13],
     description:
@@ -71,8 +85,8 @@ export const products: Product[] = [
     care: "Spot clean with mild soap. Air dry away from direct heat.",
     badge: "new",
     images: [
-      "/images/products/trail-pacer-green.jpg",
-      "/images/products/trail-pacer-green-side.jpg",
+      "/images/products/product-3.jpg",
+      "/images/products/product-7.jpg",
     ],
   },
   {
@@ -82,10 +96,15 @@ export const products: Product[] = [
     category: "women",
     collections: ["womens", "best-sellers"],
     price: 95,
+    type: "slip-on",
+    material: "tree-fiber",
+    rating: 4.6,
+    reviewCount: 421,
+    tags: ["easy-on", "breathable", "machine-washable", "lightweight"],
     colors: [
-      { name: "Warm Sand", hex: "#c4b59a", image: "/images/products/breeze-slip-on-sand.jpg" },
-      { name: "Jet Black", hex: "#1a1a1a", image: "/images/products/breeze-slip-on-black.jpg" },
-      { name: "Dusty Rose", hex: "#c49a9a", image: "/images/products/breeze-slip-on-rose.jpg" },
+      { name: "Warm Sand", hex: "#c4b59a", image: "/images/products/product-15.jpg" },
+      { name: "Jet Black", hex: "#1a1a1a", image: "/images/products/product-15.jpg" },
+      { name: "Dusty Rose", hex: "#c49a9a", image: "/images/products/product-12.jpg" },
     ],
     sizes: [5, 6, 7, 8, 9, 10],
     description:
@@ -95,8 +114,8 @@ export const products: Product[] = [
     care: "Remove insoles. Machine wash cold on gentle cycle. Air dry.",
     badge: "bestseller",
     images: [
-      "/images/products/breeze-slip-on-sand.jpg",
-      "/images/products/breeze-slip-on-sand-side.jpg",
+      "/images/products/product-15.jpg",
+      "/images/products/product-12.jpg",
     ],
   },
   {
@@ -106,9 +125,14 @@ export const products: Product[] = [
     category: "men",
     collections: ["mens", "new-arrivals"],
     price: 110,
+    type: "loafer",
+    material: "wool",
+    rating: 4.4,
+    reviewCount: 134,
+    tags: ["smart-casual", "collapsible-heel", "versatile"],
     colors: [
-      { name: "Espresso", hex: "#4a3728", image: "/images/products/stride-loafer-espresso.jpg" },
-      { name: "Slate", hex: "#6b7280", image: "/images/products/stride-loafer-slate.jpg" },
+      { name: "Espresso", hex: "#4a3728", image: "/images/products/product-4.jpg" },
+      { name: "Slate", hex: "#6b7280", image: "/images/products/product-14.jpg" },
     ],
     sizes: [7, 8, 9, 10, 11, 12],
     description:
@@ -118,8 +142,8 @@ export const products: Product[] = [
     care: "Spot clean with damp cloth. Air dry.",
     badge: "new",
     images: [
-      "/images/products/stride-loafer-espresso.jpg",
-      "/images/products/stride-loafer-espresso-side.jpg",
+      "/images/products/product-4.jpg",
+      "/images/products/product-14.jpg",
     ],
   },
   {
@@ -129,10 +153,15 @@ export const products: Product[] = [
     category: "women",
     collections: ["womens", "new-arrivals"],
     price: 130,
+    type: "runner",
+    material: "knit",
+    rating: 4.9,
+    reviewCount: 203,
+    tags: ["sock-like-fit", "ultra-light", "breathable", "machine-washable"],
     colors: [
-      { name: "Cloud White", hex: "#f5f0eb", image: "/images/products/aero-knit-white.jpg" },
-      { name: "Coral", hex: "#e07a5f", image: "/images/products/aero-knit-coral.jpg" },
-      { name: "Deep Navy", hex: "#1e2d4a", image: "/images/products/aero-knit-navy.jpg" },
+      { name: "Cloud White", hex: "#f5f0eb", image: "/images/products/product-2.jpg" },
+      { name: "Coral", hex: "#e07a5f", image: "/images/products/product-5.jpg" },
+      { name: "Deep Navy", hex: "#1e2d4a", image: "/images/products/product-13.jpg" },
     ],
     sizes: [5, 6, 7, 8, 9, 10, 11],
     description:
@@ -142,8 +171,9 @@ export const products: Product[] = [
     care: "Remove insoles and laces. Machine wash cold. Air dry.",
     badge: "new",
     images: [
-      "/images/products/aero-knit-white.jpg",
-      "/images/products/aero-knit-white-side.jpg",
+      "/images/products/product-2.jpg",
+      "/images/products/product-11.jpg",
+      "/images/products/product-5.jpg",
     ],
   },
   {
@@ -153,10 +183,15 @@ export const products: Product[] = [
     category: "men",
     collections: ["mens", "best-sellers"],
     price: 100,
+    type: "walker",
+    material: "wool",
+    rating: 4.7,
+    reviewCount: 487,
+    tags: ["machine-washable", "minimalist", "everyday", "cozy"],
     colors: [
-      { name: "Natural Grey", hex: "#9a9a9a", image: "/images/products/classic-walker-grey.jpg" },
-      { name: "Midnight", hex: "#1a1a2e", image: "/images/products/classic-walker-midnight.jpg" },
-      { name: "Cream", hex: "#f0ede6", image: "/images/products/classic-walker-cream.jpg" },
+      { name: "Natural Grey", hex: "#9a9a9a", image: "/images/products/product-8.jpg" },
+      { name: "Midnight", hex: "#1a1a2e", image: "/images/products/product-16.jpg" },
+      { name: "Cream", hex: "#f0ede6", image: "/images/products/product-9.jpg" },
     ],
     sizes: [7, 8, 9, 10, 11, 12, 13],
     description:
@@ -166,8 +201,9 @@ export const products: Product[] = [
     care: "Remove insoles and laces. Machine wash cold on gentle. Air dry.",
     badge: "bestseller",
     images: [
-      "/images/products/classic-walker-grey.jpg",
-      "/images/products/classic-walker-grey-side.jpg",
+      "/images/products/product-8.jpg",
+      "/images/products/product-16.jpg",
+      "/images/products/product-9.jpg",
     ],
   },
   {
@@ -177,10 +213,15 @@ export const products: Product[] = [
     category: "women",
     collections: ["womens", "best-sellers"],
     price: 100,
+    type: "walker",
+    material: "wool",
+    rating: 4.6,
+    reviewCount: 392,
+    tags: ["machine-washable", "minimalist", "everyday", "cozy"],
     colors: [
-      { name: "Lavender", hex: "#b5a7c9", image: "/images/products/classic-walker-w-lavender.jpg" },
-      { name: "Natural Grey", hex: "#9a9a9a", image: "/images/products/classic-walker-w-grey.jpg" },
-      { name: "Cream", hex: "#f0ede6", image: "/images/products/classic-walker-w-cream.jpg" },
+      { name: "Lavender", hex: "#b5a7c9", image: "/images/products/product-12.jpg" },
+      { name: "Natural Grey", hex: "#9a9a9a", image: "/images/products/product-11.jpg" },
+      { name: "Cream", hex: "#f0ede6", image: "/images/products/product-2.jpg" },
     ],
     sizes: [5, 6, 7, 8, 9, 10],
     description:
@@ -189,8 +230,9 @@ export const products: Product[] = [
     materials: "Upper: ZQ Merino wool. Midsole: Sugarcane EVA. Outsole: SweetFoam™.",
     care: "Remove insoles and laces. Machine wash cold on gentle. Air dry.",
     images: [
-      "/images/products/classic-walker-w-lavender.jpg",
-      "/images/products/classic-walker-w-lavender-side.jpg",
+      "/images/products/product-12.jpg",
+      "/images/products/product-11.jpg",
+      "/images/products/product-2.jpg",
     ],
   },
   {
@@ -200,9 +242,14 @@ export const products: Product[] = [
     category: "men",
     collections: ["mens", "new-arrivals"],
     price: 145,
+    type: "trainer",
+    material: "mesh",
+    rating: 4.3,
+    reviewCount: 156,
+    tags: ["responsive", "reflective", "performance", "breathable"],
     colors: [
-      { name: "Storm Blue", hex: "#4a6fa5", image: "/images/products/dash-sport-blue.jpg" },
-      { name: "Black", hex: "#1a1a1a", image: "/images/products/dash-sport-black.jpg" },
+      { name: "Storm Blue", hex: "#4a6fa5", image: "/images/products/product-6.jpg" },
+      { name: "Black", hex: "#1a1a1a", image: "/images/products/product-1.jpg" },
     ],
     sizes: [7, 8, 9, 10, 11, 12, 13],
     description:
@@ -212,8 +259,9 @@ export const products: Product[] = [
     care: "Spot clean. Air dry. Do not machine wash.",
     badge: "new",
     images: [
-      "/images/products/dash-sport-blue.jpg",
-      "/images/products/dash-sport-blue-side.jpg",
+      "/images/products/product-6.jpg",
+      "/images/products/product-5.jpg",
+      "/images/products/product-1.jpg",
     ],
   },
   {
@@ -223,9 +271,14 @@ export const products: Product[] = [
     category: "women",
     collections: ["womens", "new-arrivals"],
     price: 145,
+    type: "trainer",
+    material: "mesh",
+    rating: 4.4,
+    reviewCount: 189,
+    tags: ["responsive", "reflective", "performance", "breathable"],
     colors: [
-      { name: "Coral Pink", hex: "#e07a7a", image: "/images/products/dash-sport-w-coral.jpg" },
-      { name: "Black", hex: "#1a1a1a", image: "/images/products/dash-sport-w-black.jpg" },
+      { name: "Coral Pink", hex: "#e07a7a", image: "/images/products/product-5.jpg" },
+      { name: "Black", hex: "#1a1a1a", image: "/images/products/product-10.jpg" },
     ],
     sizes: [5, 6, 7, 8, 9, 10, 11],
     description:
@@ -235,8 +288,8 @@ export const products: Product[] = [
     care: "Spot clean. Air dry. Do not machine wash.",
     badge: "new",
     images: [
-      "/images/products/dash-sport-w-coral.jpg",
-      "/images/products/dash-sport-w-coral-side.jpg",
+      "/images/products/product-5.jpg",
+      "/images/products/product-10.jpg",
     ],
   },
   {
@@ -246,10 +299,15 @@ export const products: Product[] = [
     category: "women",
     collections: ["womens", "best-sellers"],
     price: 105,
+    type: "flat",
+    material: "tree-fiber",
+    rating: 4.5,
+    reviewCount: 267,
+    tags: ["slip-on", "breathable", "machine-washable", "elegant"],
     colors: [
-      { name: "Jet Black", hex: "#1a1a1a", image: "/images/products/glide-flat-black.jpg" },
-      { name: "Ballet Pink", hex: "#e8c4c4", image: "/images/products/glide-flat-pink.jpg" },
-      { name: "Forest", hex: "#3d5a3d", image: "/images/products/glide-flat-forest.jpg" },
+      { name: "Jet Black", hex: "#1a1a1a", image: "/images/products/product-15.jpg" },
+      { name: "Ballet Pink", hex: "#e8c4c4", image: "/images/products/product-12.jpg" },
+      { name: "Forest", hex: "#3d5a3d", image: "/images/products/product-3.jpg" },
     ],
     sizes: [5, 6, 7, 8, 9, 10],
     description:
@@ -259,8 +317,9 @@ export const products: Product[] = [
     care: "Machine wash cold. Air dry.",
     badge: "bestseller",
     images: [
-      "/images/products/glide-flat-black.jpg",
-      "/images/products/glide-flat-black-side.jpg",
+      "/images/products/product-15.jpg",
+      "/images/products/product-12.jpg",
+      "/images/products/product-3.jpg",
     ],
   },
   {
@@ -270,9 +329,14 @@ export const products: Product[] = [
     category: "men",
     collections: ["mens"],
     price: 160,
+    type: "hiker",
+    material: "wool",
+    rating: 4.8,
+    reviewCount: 98,
+    tags: ["waterproof", "warm", "trail-ready", "durable"],
     colors: [
-      { name: "Earth Brown", hex: "#6b5b4a", image: "/images/products/summit-hiker-brown.jpg" },
-      { name: "Charcoal", hex: "#333333", image: "/images/products/summit-hiker-charcoal.jpg" },
+      { name: "Earth Brown", hex: "#6b5b4a", image: "/images/products/product-14.jpg" },
+      { name: "Charcoal", hex: "#333333", image: "/images/products/product-7.jpg" },
     ],
     sizes: [7, 8, 9, 10, 11, 12, 13],
     description:
@@ -281,8 +345,9 @@ export const products: Product[] = [
     materials: "Upper: Merino wool with waterproof membrane. Outsole: Vibram rubber.",
     care: "Clean with brush and mild soap. Reproof periodically.",
     images: [
-      "/images/products/summit-hiker-brown.jpg",
-      "/images/products/summit-hiker-brown-side.jpg",
+      "/images/products/product-14.jpg",
+      "/images/products/product-4.jpg",
+      "/images/products/product-7.jpg",
     ],
   },
   {
@@ -292,9 +357,14 @@ export const products: Product[] = [
     category: "unisex",
     collections: ["mens", "womens", "new-arrivals"],
     price: 55,
+    type: "slide",
+    material: "tree-fiber",
+    rating: 4.2,
+    reviewCount: 347,
+    tags: ["easy-on", "quick-dry", "lightweight", "casual"],
     colors: [
-      { name: "Sand", hex: "#c4b59a", image: "/images/products/coast-slide-sand.jpg" },
-      { name: "Black", hex: "#1a1a1a", image: "/images/products/coast-slide-black.jpg" },
+      { name: "Sand", hex: "#c4b59a", image: "/images/products/product-8.jpg" },
+      { name: "Black", hex: "#1a1a1a", image: "/images/products/product-16.jpg" },
     ],
     sizes: [6, 7, 8, 9, 10, 11, 12],
     description:
@@ -304,7 +374,8 @@ export const products: Product[] = [
     care: "Rinse with water. Air dry.",
     badge: "new",
     images: [
-      "/images/products/coast-slide-sand.jpg",
+      "/images/products/product-8.jpg",
+      "/images/products/product-16.jpg",
     ],
   },
   {
@@ -315,9 +386,14 @@ export const products: Product[] = [
     collections: ["mens", "sale"],
     price: 90,
     originalPrice: 130,
+    type: "trainer",
+    material: "mesh",
+    rating: 4.1,
+    reviewCount: 223,
+    tags: ["cross-training", "wide-toe-box", "breathable", "durable"],
     colors: [
-      { name: "Red", hex: "#9e4040", image: "/images/products/tempo-trainer-red.jpg" },
-      { name: "Grey", hex: "#8a8a8a", image: "/images/products/tempo-trainer-grey.jpg" },
+      { name: "Red", hex: "#9e4040", image: "/images/products/product-7.jpg" },
+      { name: "Grey", hex: "#8a8a8a", image: "/images/products/product-16.jpg" },
     ],
     sizes: [7, 8, 9, 10, 11, 12],
     description:
@@ -327,7 +403,8 @@ export const products: Product[] = [
     care: "Machine wash cold. Air dry.",
     badge: "sale",
     images: [
-      "/images/products/tempo-trainer-red.jpg",
+      "/images/products/product-7.jpg",
+      "/images/products/product-10.jpg",
     ],
   },
   {
@@ -338,9 +415,14 @@ export const products: Product[] = [
     collections: ["womens", "sale"],
     price: 90,
     originalPrice: 130,
+    type: "trainer",
+    material: "mesh",
+    rating: 3.9,
+    reviewCount: 167,
+    tags: ["cross-training", "wide-toe-box", "breathable", "durable"],
     colors: [
-      { name: "Sage", hex: "#8a9a7a", image: "/images/products/tempo-trainer-w-sage.jpg" },
-      { name: "Black", hex: "#1a1a1a", image: "/images/products/tempo-trainer-w-black.jpg" },
+      { name: "Sage", hex: "#8a9a7a", image: "/images/products/product-3.jpg" },
+      { name: "Black", hex: "#1a1a1a", image: "/images/products/product-10.jpg" },
     ],
     sizes: [5, 6, 7, 8, 9, 10],
     description:
@@ -350,7 +432,8 @@ export const products: Product[] = [
     care: "Machine wash cold. Air dry.",
     badge: "sale",
     images: [
-      "/images/products/tempo-trainer-w-sage.jpg",
+      "/images/products/product-3.jpg",
+      "/images/products/product-10.jpg",
     ],
   },
   {
@@ -360,9 +443,14 @@ export const products: Product[] = [
     category: "women",
     collections: ["womens", "new-arrivals"],
     price: 115,
+    type: "walker",
+    material: "knit",
+    rating: 4.3,
+    reviewCount: 47,
+    tags: ["platform", "urban", "cushioned", "modern"],
     colors: [
-      { name: "Warm White", hex: "#f5efe6", image: "/images/products/metro-step-white.jpg" },
-      { name: "Burgundy", hex: "#6b2a3d", image: "/images/products/metro-step-burgundy.jpg" },
+      { name: "Warm White", hex: "#f5efe6", image: "/images/products/product-2.jpg" },
+      { name: "Burgundy", hex: "#6b2a3d", image: "/images/products/product-16.jpg" },
     ],
     sizes: [5, 6, 7, 8, 9, 10],
     description:
@@ -372,7 +460,8 @@ export const products: Product[] = [
     care: "Machine wash cold. Air dry.",
     badge: "new",
     images: [
-      "/images/products/metro-step-white.jpg",
+      "/images/products/product-2.jpg",
+      "/images/products/product-16.jpg",
     ],
   },
 ];

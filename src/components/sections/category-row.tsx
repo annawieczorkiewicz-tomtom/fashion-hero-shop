@@ -1,28 +1,33 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const categories = [
   {
     title: "New Arrivals",
     slug: "new-arrivals",
     gradient: "linear-gradient(145deg, #a8c0a0 0%, #6b8a5e 40%, #4a6b3d 100%)",
+    image: "/images/hero/collection-hero-1.jpg",
     links: [{ label: "SHOP NOW", href: "/collections/new-arrivals" }],
   },
   {
     title: "Men's",
     slug: "mens",
     gradient: "linear-gradient(145deg, #4a5568 0%, #2d3748 50%, #1a202c 100%)",
+    image: "/images/hero/collection-hero-2.jpg",
     links: [{ label: "SHOP MEN", href: "/collections/mens" }],
   },
   {
     title: "Women's",
     slug: "womens",
     gradient: "linear-gradient(145deg, #d4a5a5 0%, #c08080 50%, #9a5e5e 100%)",
+    image: "/images/hero/collection-hero-1.jpg",
     links: [{ label: "SHOP WOMEN", href: "/collections/womens" }],
   },
   {
     title: "Best Sellers",
     slug: "best-sellers",
     gradient: "linear-gradient(145deg, #c4b59a 0%, #a89279 50%, #8a7d6b 100%)",
+    image: "/images/hero/collection-hero-2.jpg",
     links: [{ label: "SHOP NOW", href: "/collections/best-sellers" }],
   },
 ];
@@ -40,8 +45,16 @@ export function CategoryRow() {
               aspectRatio: "3 / 4",
             }}
           >
+            {/* Background image */}
+            <Image
+              src={cat.image}
+              alt={cat.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+
             {/* Decorative overlay */}
-            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-300" />
+            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300" />
 
             {/* Content at bottom */}
             <div className="relative z-10 text-center pb-8 px-4">

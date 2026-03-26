@@ -102,7 +102,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
           </h1>
           <WishlistButton productId={product.id} className="mt-1 flex-shrink-0" />
         </div>
-        <StarRating rating={4.5} count={142} />
+        <StarRating rating={product.rating} count={product.reviewCount} />
       </div>
 
       {/* Price */}

@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const promos = [
   {
     title: "Trail Collection",
     gradient: "linear-gradient(170deg, #3d5a3d 0%, #5c7a5c 40%, #8a9a7a 100%)",
+    image: "/images/products/product-3.jpg",
     links: [
       { label: "SHOP MEN", href: "/collections/mens" },
       { label: "SHOP WOMEN", href: "/collections/womens" },
@@ -12,6 +14,7 @@ const promos = [
   {
     title: "Everyday Essentials",
     gradient: "linear-gradient(170deg, #6b5b4a 0%, #a89279 40%, #c4b59a 100%)",
+    image: "/images/products/product-4.jpg",
     links: [
       { label: "SHOP MEN", href: "/collections/mens" },
       { label: "SHOP WOMEN", href: "/collections/womens" },
@@ -20,6 +23,7 @@ const promos = [
   {
     title: "Sale",
     gradient: "linear-gradient(170deg, #9e4040 0%, #c06060 40%, #d48a8a 100%)",
+    image: "/images/products/product-7.jpg",
     links: [
       { label: "SHOP MEN", href: "/collections/sale" },
       { label: "SHOP WOMEN", href: "/collections/sale" },
@@ -40,23 +44,16 @@ export function PromoTiles() {
               aspectRatio: "3 / 4",
             }}
           >
-            {/* Subtle light overlay on hover */}
-            <div className="absolute inset-0 bg-black/5 group-hover:bg-black/15 transition-colors duration-300" />
+            {/* Background image */}
+            <Image
+              src={promo.image}
+              alt={promo.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
 
-            {/* Decorative shape */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <div
-                className="absolute opacity-[0.08]"
-                style={{
-                  width: "80%",
-                  height: "30%",
-                  top: "30%",
-                  left: "10%",
-                  background: "radial-gradient(ellipse at 50% 50%, white 0%, transparent 70%)",
-                  transform: "rotate(-3deg)",
-                }}
-              />
-            </div>
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300" />
 
             {/* Content at bottom */}
             <div className="absolute bottom-0 left-0 right-0 p-6 z-10 text-center">

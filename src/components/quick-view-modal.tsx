@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { Product, ProductColor } from "@/types";
 import { CloseIcon } from "./icons";
 import { ColorSwatches } from "./color-swatches";
@@ -45,6 +46,9 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
     onClose();
   }
 
+  const imageSrc = selectedColor.image;
+  const showImage = imageSrc.startsWith("/images/");
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
@@ -70,25 +74,37 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Image */}
           <div
-            className="aspect-square flex items-center justify-center"
+            className="relative aspect-square"
             style={{ background: productGradient(selectedColor.hex) }}
           >
-            <div className="relative w-3/5 h-2/5">
-              <div
-                className="absolute inset-0 rounded-[50%]"
-                style={{
-                  background: `linear-gradient(135deg, ${selectedColor.hex}88 0%, ${selectedColor.hex}44 100%)`,
-                  transform: "rotate(-8deg) scaleX(1.6)",
-                }}
+            {showImage ? (
+              <Image
+                src={imageSrc}
+                alt={`${product.name} - ${selectedColor.name}`}
+                width={800}
+                height={800}
+                className="w-full h-full object-cover"
               />
-              <div
-                className="absolute top-[-20%] left-[10%] w-[50%] h-[70%] rounded-[40%_60%_30%_70%]"
-                style={{
-                  background: `linear-gradient(180deg, ${selectedColor.hex}66 0%, ${selectedColor.hex}33 100%)`,
-                  transform: "rotate(-15deg)",
-                }}
-              />
-            </div>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="relative w-3/5 h-2/5">
+                  <div
+                    className="absolute inset-0 rounded-[50%]"
+                    style={{
+                      background: `linear-gradient(135deg, ${selectedColor.hex}88 0%, ${selectedColor.hex}44 100%)`,
+                      transform: "rotate(-8deg) scaleX(1.6)",
+                    }}
+                  />
+                  <div
+                    className="absolute top-[-20%] left-[10%] w-[50%] h-[70%] rounded-[40%_60%_30%_70%]"
+                    style={{
+                      background: `linear-gradient(180deg, ${selectedColor.hex}66 0%, ${selectedColor.hex}33 100%)`,
+                      transform: "rotate(-15deg)",
+                    }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Info */}

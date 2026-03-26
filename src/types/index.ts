@@ -4,6 +4,9 @@ export interface ProductColor {
   image: string;
 }
 
+export type ShoeType = "runner" | "walker" | "slip-on" | "trainer" | "flat" | "hiker" | "slide" | "loafer";
+export type ShoeMaterial = "mesh" | "wool" | "tree-fiber" | "knit" | "leather";
+
 export interface Product {
   id: string;
   name: string;
@@ -20,6 +23,11 @@ export interface Product {
   care: string;
   badge?: "new" | "new-color" | "bestseller" | "sale";
   images: string[];
+  type: ShoeType;
+  material: ShoeMaterial;
+  rating: number;
+  reviewCount: number;
+  tags: string[];
 }
 
 export interface Collection {

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { CloseIcon, MinusIcon, PlusIcon } from "./icons";
 import type { CartItem } from "@/types";
@@ -84,49 +85,63 @@ export function CartDrawer({
             </div>
           ) : (
             <div className="space-y-4">
-              {items.map((item, index) => (
-                <div key={index} className="flex gap-3 pb-4 border-b border-cream-dark">
-                  {/* Thumbnail with gradient */}
-                  <div
-                    className="w-20 h-20 rounded flex-shrink-0"
-                    style={{
-                      background: `radial-gradient(ellipse at 50% 55%, ${item.color.hex}44 0%, ${item.color.hex}22 35%, #ece9e2 65%)`,
-                    }}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-xs font-medium uppercase tracking-wide truncate">
-                      {item.product.name}
-                    </h3>
-                    <p className="text-xs text-warm-gray">
-                      {item.color.name} / Size {item.size}
-                    </p>
-                    <div className="flex items-center justify-between mt-2">
-                      <div className="flex items-center border border-cream-dark">
-                        <button
-                          className="p-1 hover:bg-cream-light"
-                          onClick={() =>
-                            item.quantity <= 1
-                              ? onRemove(index)
-                              : onUpdateQuantity(index, item.quantity - 1)
-                          }
-                        >
-                          <MinusIcon />
-                        </button>
-                        <span className="px-3 text-xs">{item.quantity}</span>
-                        <button
-                          className="p-1 hover:bg-cream-light"
-                          onClick={() => onUpdateQuantity(index, item.quantity + 1)}
-                        >
-                          <PlusIcon />
-                        </button>
+              {items.map((item, index) => {
+                const thumbSrc = item.color.image;
+                const showThumb = thumbSrc.startsWith("/images/");
+                return (
+                  <div key={index} className="flex gap-3 pb-4 border-b border-cream-dark">
+                    {/* Thumbnail */}
+                    <div
+                      className="w-20 h-20 rounded flex-shrink-0 overflow-hidden"
+                      style={{
+                        background: `radial-gradient(ellipse at 50% 55%, ${item.color.hex}44 0%, ${item.color.hex}22 35%, #ece9e2 65%)`,
+                      }}
+                    >
+                      {showThumb && (
+                        <Image
+                          src={thumbSrc}
+                          alt={`${item.product.name} - ${item.color.name}`}
+                          width={80}
+                          height={80}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xs font-medium uppercase tracking-wide truncate">
+                        {item.product.name}
+                      </h3>
+                      <p className="text-xs text-warm-gray">
+                        {item.color.name} / Size {item.size}
+                      </p>
+                      <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center border border-cream-dark">
+                          <button
+                            className="p-1 hover:bg-cream-light"
+                            onClick={() =>
+                              item.quantity <= 1
+                                ? onRemove(index)
+                                : onUpdateQuantity(index, item.quantity - 1)
+                            }
+                          >
+                            <MinusIcon />
+                          </button>
+                          <span className="px-3 text-xs">{item.quantity}</span>
+                          <button
+                            className="p-1 hover:bg-cream-light"
+                            onClick={() => onUpdateQuantity(index, item.quantity + 1)}
+                          >
+                            <PlusIcon />
+                          </button>
+                        </div>
+                        <span className="text-sm font-medium">
+                          ${(item.product.price * item.quantity).toFixed(0)}
+                        </span>
                       </div>
-                      <span className="text-sm font-medium">
-                        ${(item.product.price * item.quantity).toFixed(0)}
-                      </span>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

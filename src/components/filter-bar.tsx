@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ChevronDownIcon } from "./icons";
+import type { ShoeType, ShoeMaterial } from "@/types";
 
 type GenderFilter = "all" | "men" | "women";
 type SortOption = "featured" | "price-asc" | "price-desc" | "newest";
@@ -12,6 +13,8 @@ interface FilterBarProps {
   onFilterChange: (gender: GenderFilter) => void;
   onSortChange: (sort: SortOption) => void;
   onPriceRangeChange: (range: PriceRange) => void;
+  onShoeTypeChange: (types: ShoeType[]) => void;
+  onMaterialChange: (materials: ShoeMaterial[]) => void;
   activeFilterCount: number;
 }
 
@@ -29,16 +32,42 @@ const priceLabels: Record<PriceRange, string> = {
   "over-130": "Over $130",
 };
 
+const shoeTypeLabels: Record<ShoeType, string> = {
+  runner: "Runner",
+  walker: "Walker",
+  "slip-on": "Slip-On",
+  trainer: "Trainer",
+  flat: "Flat",
+  hiker: "Hiker",
+  slide: "Slide",
+  loafer: "Loafer",
+};
+
+const materialLabels: Record<ShoeMaterial, string> = {
+  mesh: "Mesh",
+  wool: "Wool",
+  "tree-fiber": "Tree Fiber",
+  knit: "Knit",
+  leather: "Leather",
+};
+
+const shoeTypeOptions: ShoeType[] = ["runner", "walker", "slip-on", "trainer", "flat"];
+const materialOptions: ShoeMaterial[] = ["mesh", "wool", "tree-fiber", "knit"];
+
 export function FilterBar({
   productCount,
   onFilterChange,
   onSortChange,
   onPriceRangeChange,
+  onShoeTypeChange,
+  onMaterialChange,
   activeFilterCount,
 }: FilterBarProps) {
   const [activeGender, setActiveGender] = useState<GenderFilter>("all");
   const [activeSort, setActiveSort] = useState<SortOption>("featured");
   const [activePriceRange, setActivePriceRange] = useState<PriceRange>("all");
+  const [activeShoeTypes, setActiveShoeTypes] = useState<ShoeType[]>([]);
+  const [activeMaterials, setActiveMaterials] = useState<ShoeMaterial[]>([]);
   const [sortOpen, setSortOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
 
@@ -57,6 +86,22 @@ export function FilterBar({
     const next = activePriceRange === range ? "all" : range;
     setActivePriceRange(next);
     onPriceRangeChange(next);
+  }
+
+  function toggleShoeType(type: ShoeType) {
+    const next = activeShoeTypes.includes(type)
+      ? activeShoeTypes.filter((t) => t !== type)
+      : [...activeShoeTypes, type];
+    setActiveShoeTypes(next);
+    onShoeTypeChange(next);
+  }
+
+  function toggleMaterial(material: ShoeMaterial) {
+    const next = activeMaterials.includes(material)
+      ? activeMaterials.filter((m) => m !== material)
+      : [...activeMaterials, material];
+    setActiveMaterials(next);
+    onMaterialChange(next);
   }
 
   useEffect(() => {
@@ -138,6 +183,42 @@ export function FilterBar({
               }`}
             >
               {priceLabels[range]}
+            </button>
+          ))}
+        </div>
+
+        {/* Shoe type pills */}
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-[10px] font-medium uppercase tracking-wider text-warm-gray mr-1">Type:</span>
+          {shoeTypeOptions.map((type) => (
+            <button
+              key={type}
+              onClick={() => toggleShoeType(type)}
+              className={`px-3 py-1 text-[10px] font-medium uppercase tracking-wider rounded-full border transition-colors ${
+                activeShoeTypes.includes(type)
+                  ? "bg-charcoal text-white border-charcoal"
+                  : "bg-transparent text-charcoal border-charcoal/30 hover:border-charcoal"
+              }`}
+            >
+              {shoeTypeLabels[type]}
+            </button>
+          ))}
+        </div>
+
+        {/* Material pills */}
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-[10px] font-medium uppercase tracking-wider text-warm-gray mr-1">Material:</span>
+          {materialOptions.map((material) => (
+            <button
+              key={material}
+              onClick={() => toggleMaterial(material)}
+              className={`px-3 py-1 text-[10px] font-medium uppercase tracking-wider rounded-full border transition-colors ${
+                activeMaterials.includes(material)
+                  ? "bg-charcoal text-white border-charcoal"
+                  : "bg-transparent text-charcoal border-charcoal/30 hover:border-charcoal"
+              }`}
+            >
+              {materialLabels[material]}
             </button>
           ))}
         </div>
