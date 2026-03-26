@@ -41,6 +41,16 @@ const shoeTypeLabels: Record<ShoeType, string> = {
   hiker: "Hiker",
   slide: "Slide",
   loafer: "Loafer",
+  sock: "Sock",
+  tee: "Tee",
+  hoodie: "Hoodie",
+  pant: "Jogger",
+  jacket: "Jacket",
+  cardigan: "Cardigan",
+  bag: "Bag",
+  beanie: "Beanie",
+  cap: "Cap",
+  insole: "Insole",
 };
 
 const materialLabels: Record<ShoeMaterial, string> = {

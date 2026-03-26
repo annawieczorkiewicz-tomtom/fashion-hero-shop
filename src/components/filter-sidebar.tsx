@@ -12,6 +12,7 @@ interface FilterSidebarProps {
   shoeTypes: ShoeType[];
   materials: ShoeMaterial[];
   sizes: number[];
+  availableTypes?: ShoeType[];
   onGenderChange: (gender: GenderFilter) => void;
   onPriceRangeChange: (range: PriceRange) => void;
   onShoeTypeChange: (types: ShoeType[]) => void;
@@ -23,7 +24,7 @@ interface FilterSidebarProps {
 
 const allSizes = [5, 6, 7, 8, 9, 10, 11, 12, 13];
 
-const shoeTypeOptions: { value: ShoeType; label: string }[] = [
+const allTypeOptions: { value: ShoeType; label: string }[] = [
   { value: "runner", label: "Runner" },
   { value: "walker", label: "Walker" },
   { value: "slip-on", label: "Slip-On" },
@@ -32,6 +33,16 @@ const shoeTypeOptions: { value: ShoeType; label: string }[] = [
   { value: "hiker", label: "Hiker" },
   { value: "slide", label: "Slide" },
   { value: "loafer", label: "Loafer" },
+  { value: "sock", label: "Sock" },
+  { value: "tee", label: "Tee" },
+  { value: "hoodie", label: "Hoodie" },
+  { value: "pant", label: "Jogger" },
+  { value: "jacket", label: "Jacket" },
+  { value: "cardigan", label: "Cardigan" },
+  { value: "bag", label: "Bag" },
+  { value: "beanie", label: "Beanie" },
+  { value: "cap", label: "Cap" },
+  { value: "insole", label: "Insole" },
 ];
 
 const materialOptions: { value: ShoeMaterial; label: string }[] = [
@@ -108,6 +119,7 @@ export function FilterSidebar({
   shoeTypes,
   materials,
   sizes,
+  availableTypes,
   onGenderChange,
   onPriceRangeChange,
   onShoeTypeChange,
@@ -116,6 +128,9 @@ export function FilterSidebar({
   onClearAll,
   activeFilterCount,
 }: FilterSidebarProps) {
+  const shoeTypeOptions = availableTypes
+    ? allTypeOptions.filter((opt) => availableTypes.includes(opt.value))
+    : allTypeOptions;
   function toggleShoeType(type: ShoeType) {
     onShoeTypeChange(
       shoeTypes.includes(type)

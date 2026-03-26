@@ -4,14 +4,18 @@ export interface ProductColor {
   image: string;
 }
 
-export type ShoeType = "runner" | "walker" | "slip-on" | "trainer" | "flat" | "hiker" | "slide" | "loafer";
+export type ShoeType =
+  | "runner" | "walker" | "slip-on" | "trainer" | "flat" | "hiker" | "slide" | "loafer"
+  | "sock" | "tee" | "hoodie" | "pant" | "jacket" | "cardigan" | "bag" | "beanie" | "cap" | "insole";
 export type ShoeMaterial = "mesh" | "wool" | "tree-fiber" | "knit" | "leather";
+export type ProductCategory = "shoes" | "socks" | "apparel" | "accessories";
 
 export interface Product {
   id: string;
   name: string;
   slug: string;
   category: "men" | "women" | "unisex";
+  productCategory: ProductCategory;
   collections: string[];
   price: number;
   originalPrice?: number;

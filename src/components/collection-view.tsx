@@ -87,12 +87,18 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
     setSizes([]);
   }
 
+  const availableTypes = useMemo(() => {
+    const types = new Set(products.map((p) => p.type));
+    return Array.from(types);
+  }, [products]);
+
   const sidebarProps = {
     gender,
     priceRange,
     shoeTypes,
     materials,
     sizes,
+    availableTypes,
     onGenderChange: setGender,
     onPriceRangeChange: setPriceRange,
     onShoeTypeChange: setShoeTypes,
