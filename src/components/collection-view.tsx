@@ -5,6 +5,7 @@ import { FilterSidebar, type GenderFilter, type PriceRange } from "@/components/
 import { ProductCard } from "@/components/product-card";
 import { ChevronDownIcon, CloseIcon } from "@/components/icons";
 import type { Product, ShoeType, ShoeMaterial } from "@/types";
+import { getSeller } from "@/data/sellers";
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "newest";
 
@@ -27,6 +28,7 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
   const [shoeTypes, setShoeTypes] = useState<ShoeType[]>([]);
   const [materials, setMaterials] = useState<ShoeMaterial[]>([]);
   const [sizes, setSizes] = useState<number[]>([]);
+  const [sellerSlugs, setSellerSlugs] = useState<string[]>([]);
   const [sortOpen, setSortOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -37,11 +39,11 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
       result = result.filter((p) => p.category === gender || p.category === "unisex");
     }
     if (priceRange === "under-100") {
-      result = result.filter((p) => p.price < 100);
+      result = result.filter((p) => p.price < 199);
     } else if (priceRange === "100-130") {
-      result = result.filter((p) => p.price >= 100 && p.price <= 130);
+      result = result.filter((p) => p.price >= 199 && p.price <= 399);
     } else if (priceRange === "over-130") {
-      result = result.filter((p) => p.price > 130);
+      result = result.filter((p) => p.price > 399);
     }
     if (shoeTypes.length > 0) {
       result = result.filter((p) => shoeTypes.includes(p.type));
@@ -51,6 +53,13 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
     }
     if (sizes.length > 0) {
       result = result.filter((p) => p.sizes.some((s) => sizes.includes(s)));
+    }
+    if (sellerSlugs.length > 0) {
+      const sellerIds = sellerSlugs
+        .map((slug) => getSeller(slug))
+        .filter(Boolean)
+        .map((s) => s!.id);
+      result = result.filter((p) => sellerIds.includes(p.sellerId));
     }
 
     switch (sort) {
@@ -70,14 +79,15 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
     }
 
     return result;
-  }, [products, gender, sort, priceRange, shoeTypes, materials, sizes]);
+  }, [products, gender, sort, priceRange, shoeTypes, materials, sizes, sellerSlugs]);
 
   const activeFilterCount =
     (gender !== "all" ? 1 : 0) +
     (priceRange !== "all" ? 1 : 0) +
     (shoeTypes.length > 0 ? 1 : 0) +
     (materials.length > 0 ? 1 : 0) +
-    (sizes.length > 0 ? 1 : 0);
+    (sizes.length > 0 ? 1 : 0) +
+    (sellerSlugs.length > 0 ? 1 : 0);
 
   function clearAll() {
     setGender("all");
@@ -85,6 +95,7 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
     setShoeTypes([]);
     setMaterials([]);
     setSizes([]);
+    setSellerSlugs([]);
   }
 
   const availableTypes = useMemo(() => {
@@ -99,11 +110,13 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
     materials,
     sizes,
     availableTypes,
+    sellerSlugs,
     onGenderChange: setGender,
     onPriceRangeChange: setPriceRange,
     onShoeTypeChange: setShoeTypes,
     onMaterialChange: setMaterials,
     onSizesChange: setSizes,
+    onSellerChange: setSellerSlugs,
     onClearAll: clearAll,
     activeFilterCount,
   };

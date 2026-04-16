@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import type { ShoeType, ShoeMaterial } from "@/types";
+import { getAllSellers } from "@/data/sellers";
 
 type GenderFilter = "all" | "men" | "women";
 type PriceRange = "all" | "under-100" | "100-130" | "over-130";
@@ -13,11 +14,13 @@ interface FilterSidebarProps {
   materials: ShoeMaterial[];
   sizes: number[];
   availableTypes?: ShoeType[];
+  sellerSlugs: string[];
   onGenderChange: (gender: GenderFilter) => void;
   onPriceRangeChange: (range: PriceRange) => void;
   onShoeTypeChange: (types: ShoeType[]) => void;
   onMaterialChange: (materials: ShoeMaterial[]) => void;
   onSizesChange: (sizes: number[]) => void;
+  onSellerChange: (slugs: string[]) => void;
   onClearAll: () => void;
   activeFilterCount: number;
 }
@@ -53,9 +56,9 @@ const materialOptions: { value: ShoeMaterial; label: string }[] = [
 ];
 
 const priceOptions: { value: PriceRange; label: string }[] = [
-  { value: "under-100", label: "Under $100" },
-  { value: "100-130", label: "$100 – $130" },
-  { value: "over-130", label: "Over $130" },
+  { value: "under-100", label: "Under 199 zl" },
+  { value: "100-130", label: "199 - 399 zl" },
+  { value: "over-130", label: "Over 399 zl" },
 ];
 
 function FilterSection({
@@ -120,14 +123,17 @@ export function FilterSidebar({
   materials,
   sizes,
   availableTypes,
+  sellerSlugs,
   onGenderChange,
   onPriceRangeChange,
   onShoeTypeChange,
   onMaterialChange,
   onSizesChange,
+  onSellerChange,
   onClearAll,
   activeFilterCount,
 }: FilterSidebarProps) {
+  const allSellers = getAllSellers();
   const shoeTypeOptions = availableTypes
     ? allTypeOptions.filter((opt) => availableTypes.includes(opt.value))
     : allTypeOptions;
@@ -152,6 +158,14 @@ export function FilterSidebar({
       sizes.includes(size)
         ? sizes.filter((s) => s !== size)
         : [...sizes, size]
+    );
+  }
+
+  function toggleSeller(slug: string) {
+    onSellerChange(
+      sellerSlugs.includes(slug)
+        ? sellerSlugs.filter((s) => s !== slug)
+        : [...sellerSlugs, slug]
     );
   }
 
@@ -245,6 +259,20 @@ export function FilterSidebar({
               checked={materials.includes(opt.value)}
               label={opt.label}
               onChange={() => toggleMaterial(opt.value)}
+            />
+          ))}
+        </div>
+      </FilterSection>
+
+      {/* Seller */}
+      <FilterSection title="Seller">
+        <div className="flex flex-col gap-0.5">
+          {allSellers.map((seller) => (
+            <Checkbox
+              key={seller.slug}
+              checked={sellerSlugs.includes(seller.slug)}
+              label={seller.name}
+              onChange={() => toggleSeller(seller.slug)}
             />
           ))}
         </div>
