@@ -109,7 +109,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                           </h4>
                           <p className="text-[12px] text-warm-gray">{color.name}</p>
                         </div>
-                        <span className="text-[14px] font-medium">${product.price}</span>
+                        <span className="text-[14px] font-medium">{product.price} zl</span>
                       </Link>
                     );
                   })}

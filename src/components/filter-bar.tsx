@@ -27,9 +27,9 @@ const sortLabels: Record<SortOption, string> = {
 
 const priceLabels: Record<PriceRange, string> = {
   all: "All Prices",
-  "under-100": "Under $100",
-  "100-130": "$100-$130",
-  "over-130": "Over $130",
+  "under-100": "Under 199 zl",
+  "100-130": "199 - 399 zl",
+  "over-130": "Over 399 zl",
 };
 
 const shoeTypeLabels: Record<ShoeType, string> = {

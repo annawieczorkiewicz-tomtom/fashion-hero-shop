@@ -6,9 +6,9 @@ import Link from "next/link";
 import { useAuth } from "@/components/auth-provider";
 
 const mockOrders = [
-  { id: "SF-10042", date: "March 15, 2026", status: "Delivered", total: 148.00 },
-  { id: "SF-10038", date: "February 22, 2026", status: "Delivered", total: 235.00 },
-  { id: "SF-10031", date: "January 8, 2026", status: "Delivered", total: 120.00 },
+  { id: "SF-10042", date: "March 15, 2026", status: "Delivered", total: 592 },
+  { id: "SF-10038", date: "February 22, 2026", status: "Delivered", total: 940 },
+  { id: "SF-10031", date: "January 8, 2026", status: "Delivered", total: 480 },
 ];
 
 export default function AccountPage() {
@@ -52,7 +52,7 @@ export default function AccountPage() {
                 <p className="text-[12px] text-warm-gray">{order.date}</p>
               </div>
               <div className="text-right">
-                <p className="text-[13px] font-medium text-charcoal">${order.total.toFixed(2)}</p>
+                <p className="text-[13px] font-medium text-charcoal">{order.total.toFixed(0)} zl</p>
                 <p className="text-[11px] text-green-700 font-medium">{order.status}</p>
               </div>
             </div>

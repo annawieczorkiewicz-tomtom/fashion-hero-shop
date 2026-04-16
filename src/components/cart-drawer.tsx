@@ -25,7 +25,7 @@ export function CartDrawer({
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  const freeShippingThreshold = 75;
+  const freeShippingThreshold = 299;
   const remaining = Math.max(0, freeShippingThreshold - subtotal);
 
   return (
@@ -58,7 +58,7 @@ export function CartDrawer({
         <div className="px-4 py-3 bg-cream-light text-center">
           {remaining > 0 ? (
             <p className="text-xs text-warm-gray">
-              Spend ${remaining.toFixed(0)} more to earn free shipping!
+              Spend {remaining.toFixed(0)} zl more to earn free shipping!
             </p>
           ) : (
             <p className="text-xs text-warm-gray">
@@ -135,7 +135,7 @@ export function CartDrawer({
                           </button>
                         </div>
                         <span className="text-sm font-medium">
-                          ${(item.product.price * item.quantity).toFixed(0)}
+                          {(item.product.price * item.quantity).toFixed(0)} zl
                         </span>
                       </div>
                     </div>
@@ -151,7 +151,7 @@ export function CartDrawer({
           <div className="px-4 py-4 border-t">
             <div className="flex justify-between mb-3">
               <span className="text-sm font-medium">Subtotal</span>
-              <span className="text-sm font-medium">${subtotal.toFixed(0)}</span>
+              <span className="text-sm font-medium">{subtotal.toFixed(0)} zl</span>
             </div>
             <p className="text-xs text-warm-gray mb-3">
               Shipping and taxes calculated at checkout.
