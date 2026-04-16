@@ -19,16 +19,19 @@ const sortLabels: Record<SortOption, string> = {
 interface CollectionViewProps {
   products: Product[];
   collectionName: string;
+  initialSellerSlug?: string;
 }
 
-export function CollectionView({ products, collectionName }: CollectionViewProps) {
+export function CollectionView({ products, collectionName, initialSellerSlug }: CollectionViewProps) {
   const [gender, setGender] = useState<GenderFilter>("all");
   const [sort, setSort] = useState<SortOption>("featured");
   const [priceRange, setPriceRange] = useState<PriceRange>("all");
   const [shoeTypes, setShoeTypes] = useState<ShoeType[]>([]);
   const [materials, setMaterials] = useState<ShoeMaterial[]>([]);
   const [sizes, setSizes] = useState<number[]>([]);
-  const [sellerSlugs, setSellerSlugs] = useState<string[]>([]);
+  const [sellerSlugs, setSellerSlugs] = useState<string[]>(
+    initialSellerSlug ? [initialSellerSlug] : []
+  );
   const [sortOpen, setSortOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -207,6 +210,30 @@ export function CollectionView({ products, collectionName }: CollectionViewProps
               )}
             </div>
           </div>
+
+          {/* Seller header strip */}
+          {sellerSlugs.length === 1 && (() => {
+            const activeSeller = getSeller(sellerSlugs[0]);
+            if (!activeSeller) return null;
+            const sellerProductCount = products.filter((p) => p.sellerId === activeSeller.id).length;
+            return (
+              <div className="mb-6 p-4 bg-cream-light rounded-lg flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-medium text-charcoal">{activeSeller.name}</h3>
+                  <p className="text-[11px] text-warm-gray mt-0.5">
+                    {sellerProductCount} products · Joined {activeSeller.joinedYear}
+                    {activeSeller.rating > 0 && ` · ${activeSeller.rating} rating`}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setSellerSlugs([])}
+                  className="text-[11px] text-warm-gray underline hover:text-charcoal transition-colors"
+                >
+                  View all sellers
+                </button>
+              </div>
+            );
+          })()}
 
           {/* Product grid */}
           {filtered.length === 0 ? (
