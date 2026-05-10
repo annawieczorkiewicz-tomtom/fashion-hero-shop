@@ -66,6 +66,126 @@ const STATUS_STYLES: Record<ProductStatus, string> = {
   "NEW":            "border border-charcoal/30 text-charcoal",
 };
 
+interface ActiveCampaignModalProps {
+  product: DashboardProduct;
+  day: number;
+  onClose: () => void;
+}
+
+function ActiveCampaignModal({ product, day, onClose }: ActiveCampaignModalProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    ref.current?.focus();
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  const totalDays = 10;
+  const soldCount = 3;
+  const revenue = soldCount * product.price;
+  const commissionPerItem = +(product.price * 0.05).toFixed(2);
+  const totalCommission = +(commissionPerItem * soldCount).toFixed(2);
+  const fmt = (n: number) => n.toFixed(2).replace(".", ",");
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div
+        ref={ref}
+        tabIndex={-1}
+        className="relative bg-white max-w-md w-full z-10 outline-none"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-1 hover:opacity-60 transition-opacity z-10"
+          aria-label="Zamknij"
+        >
+          <CloseIcon />
+        </button>
+
+        {/* Product header */}
+        <div className="flex items-center gap-4 p-5 border-b border-border">
+          <div className="w-14 h-14 shrink-0 overflow-hidden bg-cream">
+            <Image src={product.image} alt={product.name} width={56} height={56} className="w-full h-full object-cover" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-[12px] font-medium uppercase tracking-widest text-charcoal leading-tight">
+              {product.name} / {product.subtitle}
+            </p>
+            <p className="text-[11px] uppercase tracking-widest text-warm-gray mt-0.5">
+              {product.price} zł
+            </p>
+          </div>
+          <span className="shrink-0 text-[9px] font-medium uppercase tracking-widest px-2.5 py-1 bg-green-100 text-green-700">
+            KAMPANIA AKTYWNA
+          </span>
+        </div>
+
+        <div className="p-6 flex flex-col gap-5">
+          {/* Progress bar */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <p className="text-[10px] uppercase tracking-widest text-warm-gray">Postęp kampanii</p>
+              <p className="text-[10px] uppercase tracking-widest font-medium text-charcoal">
+                Dzień {day} z {totalDays}
+              </p>
+            </div>
+            <div className="h-1.5 bg-cream-dark w-full">
+              <div className="h-full bg-charcoal transition-all" style={{ width: `${(day / totalDays) * 100}%` }} />
+            </div>
+          </div>
+
+          {/* Campaign results */}
+          <div className="bg-cream-light border border-border p-4 flex flex-col gap-3">
+            <p className="text-[10px] uppercase tracking-widest text-warm-gray">Wyniki kampanii</p>
+            <p className="text-[13px] text-charcoal">{soldCount} sprzedane bluzy</p>
+            <div className="flex items-baseline justify-between">
+              <span className="text-[13px] text-charcoal">Przychód z kampanii</span>
+              <span className="text-[13px] font-medium text-charcoal tabular-nums">{revenue} zł</span>
+            </div>
+            <div className="flex items-baseline justify-between">
+              <span className="text-[13px] text-warm-gray">
+                Prowizja FashionHero ({soldCount} × {fmt(commissionPerItem)} zł)
+              </span>
+              <span className="text-[13px] text-warm-gray tabular-nums">{fmt(totalCommission)} zł</span>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="flex gap-8">
+            <div>
+              <p className="text-[9px] uppercase tracking-widest text-warm-gray mb-1">Wyświetlenia</p>
+              <p className="text-[18px] font-light text-charcoal tabular-nums">
+                {product.views.toLocaleString("pl-PL")}
+              </p>
+            </div>
+            <div>
+              <p className="text-[9px] uppercase tracking-widest text-warm-gray mb-1">Sprzedaż</p>
+              <p className="text-[18px] font-light text-charcoal tabular-nums">
+                {product.conversionRate.toFixed(1)}%
+              </p>
+            </div>
+          </div>
+
+          {/* Pause button */}
+          <button
+            onClick={onClose}
+            className="mt-1 w-full py-3.5 border border-charcoal/30 text-charcoal text-[10px] font-medium uppercase tracking-widest hover:border-charcoal transition-colors"
+          >
+            WSTRZYMAJ KAMPANIĘ
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface CampaignModalProps {
   product: DashboardProduct;
   onActivate: (productId: string) => void;
@@ -373,13 +493,19 @@ export default function SellerPromotePage() {
         </div>
       </div>
 
-      {modalProduct && (
+      {modalProduct && campaigns[modalProduct.id] !== undefined ? (
+        <ActiveCampaignModal
+          product={modalProduct}
+          day={campaigns[modalProduct.id]}
+          onClose={() => setModalProductId(null)}
+        />
+      ) : modalProduct ? (
         <CampaignModal
           product={modalProduct}
           onActivate={handleActivate}
           onClose={() => setModalProductId(null)}
         />
-      )}
+      ) : null}
     </>
   );
 }
