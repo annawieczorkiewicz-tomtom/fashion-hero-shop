@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import posthog from "posthog-js";
 import { CloseIcon } from "@/components/icons";
 
 type ProductStatus = "PROMOTED" | "LOW VISIBILITY" | "NEW";
@@ -175,7 +176,14 @@ function ActiveCampaignModal({ product, day, onClose }: ActiveCampaignModalProps
 
           {/* Pause button */}
           <button
-            onClick={onClose}
+            onClick={() => {
+              posthog.capture("seller_campaign_paused", {
+                product_id: product.id,
+                product_name: product.name,
+                campaign_day: day,
+              });
+              onClose();
+            }}
             className="mt-1 w-full py-3.5 border border-charcoal/30 text-charcoal text-[10px] font-medium uppercase tracking-widest hover:border-charcoal transition-colors"
           >
             WSTRZYMAJ KAMPANIĘ
@@ -273,7 +281,15 @@ function CampaignModal({ product, onActivate, onClose }: CampaignModalProps) {
           </p>
 
           <button
-            onClick={() => { onActivate(product.id); onClose(); }}
+            onClick={() => {
+              posthog.capture("seller_campaign_activated", {
+                product_id: product.id,
+                product_name: product.name,
+                product_price: product.price,
+              });
+              onActivate(product.id);
+              onClose();
+            }}
             className="mt-1 w-full py-3.5 bg-charcoal text-white text-[10px] font-medium uppercase tracking-widest hover:bg-charcoal-light transition-colors"
           >
             AKTYWUJ PROMOCJĘ
