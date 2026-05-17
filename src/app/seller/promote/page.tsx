@@ -256,7 +256,7 @@ function CampaignModal({ product, onActivate, onClose }: CampaignModalProps) {
         <div className="p-6 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <p className="text-[14px] font-light text-charcoal leading-snug">
-              Twój produkt pojawi się wyżej w wynikach przez 10 dni
+              Twoje produkty wyżej. Płacisz tylko gdy sprzedasz.
             </p>
             <p className="text-[13px] text-charcoal">
               Sprzedasz w tym czasie?{" "}
