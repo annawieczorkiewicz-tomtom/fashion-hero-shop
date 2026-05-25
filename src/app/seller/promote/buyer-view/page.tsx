@@ -4,32 +4,101 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { products } from "@/data/products";
 import { getDashboardProduct, type DashboardProduct } from "@/data/seller-dashboard";
-import { ProductCard } from "@/components/product-card";
 
-// Streetwear background products — clothing only, no running shoes.
-// IDs "1" and "9" excluded because ProductCard marks them as PROMOWANE;
-// keeping them would dilute the visibility effect of the seller's promoted product.
-const BACKGROUND_IDS = ["41", "106", "25", "36", "27", "29", "39", "37"];
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 
-const backgroundProducts = BACKGROUND_IDS
-  .map((id) => products.find((p) => p.id === id))
-  .filter((p): p is NonNullable<typeof p> => p !== undefined);
+interface BuyerViewItem {
+  id: string;
+  name: string;
+  subtitle: string;
+  price: number;
+  image: string; // Pexels URL — each item has a unique photo
+}
 
-/* Inline card for seller's promoted DashboardProduct — mirrors ProductCard style */
+// ---------------------------------------------------------------------------
+// Background streetwear items — unique Pexels image per product.
+// ProductCard was replaced here because the product database shares only
+// 4 distinct local images across 8+ apparel items, causing visible duplicates.
+// ---------------------------------------------------------------------------
+
+const STREETWEAR_ITEMS: BuyerViewItem[] = [
+  {
+    id: "bv1",
+    name: "Block Tee",
+    subtitle: "Oversized · Black",
+    price: 199,
+    image: "https://images.pexels.com/photos/1656684/pexels-photo-1656684.jpeg",
+  },
+  {
+    id: "bv2",
+    name: "Heavyweight Crewneck",
+    subtitle: "Washed Black",
+    price: 369,
+    image: "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg",
+  },
+  {
+    id: "bv3",
+    name: "Pullover Hoodie",
+    subtitle: "Charcoal",
+    price: 389,
+    image: "https://images.pexels.com/photos/6311386/pexels-photo-6311386.jpeg",
+  },
+  {
+    id: "bv4",
+    name: "Cargo Jogger",
+    subtitle: "Olive",
+    price: 399,
+    image: "https://images.pexels.com/photos/6311392/pexels-photo-6311392.jpeg",
+  },
+  {
+    id: "bv5",
+    name: "Lightweight Jacket",
+    subtitle: "Black",
+    price: 509,
+    image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg",
+  },
+  {
+    id: "bv6",
+    name: "Utility Jacket",
+    subtitle: "Army Green",
+    price: 599,
+    image: "https://images.pexels.com/photos/6311478/pexels-photo-6311478.jpeg",
+  },
+  {
+    id: "bv7",
+    name: "Jogger Pant",
+    subtitle: "Black",
+    price: 349,
+    image: "https://images.pexels.com/photos/6311394/pexels-photo-6311394.jpeg",
+  },
+  {
+    id: "bv8",
+    name: "Stealth Hoodie",
+    subtitle: "Midnight Black",
+    price: 429,
+    image: "https://images.pexels.com/photos/6311480/pexels-photo-6311480.jpeg",
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Card components
+// ---------------------------------------------------------------------------
+
+/** Promoted seller product — first in results, with PROMOWANE badge */
 function PromotedDashboardCard({ product }: { product: DashboardProduct }) {
-  const largeSrc = `${product.image}?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop`;
+  const src = `${product.image}?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop`;
 
   return (
     <div className="group">
       <div className="relative aspect-square overflow-hidden mb-3 bg-cream">
-        {/* PROMOWANE badge — matches ProductCard positioning */}
         <span className="absolute bottom-3 left-3 text-[9px] font-medium uppercase tracking-wider bg-charcoal text-white px-2 py-1 z-10">
           PROMOWANE
         </span>
         <Image
-          src={largeSrc}
+          src={src}
           alt={`${product.name} – ${product.subtitle}`}
           width={600}
           height={600}
@@ -52,12 +121,42 @@ function PromotedDashboardCard({ product }: { product: DashboardProduct }) {
   );
 }
 
+/** Regular marketplace listing — consistent style, unique image */
+function BuyerResultCard({ item }: { item: BuyerViewItem }) {
+  const src = `${item.image}?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop`;
+
+  return (
+    <div className="group">
+      <div className="relative aspect-square overflow-hidden mb-3 bg-cream">
+        <Image
+          src={src}
+          alt={`${item.name} – ${item.subtitle}`}
+          width={600}
+          height={600}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <p className="text-[11px] font-medium uppercase tracking-widest text-charcoal">
+        {item.name}
+      </p>
+      <p className="text-[10px] uppercase tracking-widest text-warm-gray mt-0.5">
+        {item.subtitle}
+      </p>
+      <p className="text-[12px] font-medium text-charcoal mt-1.5">{item.price} zł</p>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+
 function BuyerViewContent() {
   const searchParams = useSearchParams();
   const productId = searchParams.get("product");
   const promoted = productId ? getDashboardProduct(productId) : null;
 
-  const totalCount = backgroundProducts.length + (promoted ? 1 : 0);
+  const totalCount = STREETWEAR_ITEMS.length + (promoted ? 1 : 0);
 
   return (
     <>
@@ -102,11 +201,11 @@ function BuyerViewContent() {
           </div>
         )}
 
-        {/* Product grid — promoted product first, then background products */}
+        {/* Product grid — promoted first, then unique streetwear items */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
           {promoted && <PromotedDashboardCard product={promoted} />}
-          {backgroundProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {STREETWEAR_ITEMS.map((item) => (
+            <BuyerResultCard key={item.id} item={item} />
           ))}
         </div>
       </div>
