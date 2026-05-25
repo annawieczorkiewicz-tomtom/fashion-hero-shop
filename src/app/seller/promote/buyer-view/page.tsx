@@ -8,10 +8,10 @@ import { products } from "@/data/products";
 import { getDashboardProduct, type DashboardProduct } from "@/data/seller-dashboard";
 import { ProductCard } from "@/components/product-card";
 
-// Streetwear background products — IDs "1" and "9" intentionally excluded
-// because ProductCard marks them as PROMOWANE; having multiple promoted badges
-// in the same view dilutes the visibility effect of the seller's promoted product.
-const BACKGROUND_IDS = ["38", "39", "25", "35", "36", "27", "29", "37"];
+// Streetwear background products — clothing only, no running shoes.
+// IDs "1" and "9" excluded because ProductCard marks them as PROMOWANE;
+// keeping them would dilute the visibility effect of the seller's promoted product.
+const BACKGROUND_IDS = ["41", "106", "25", "36", "27", "29", "39", "37"];
 
 const backgroundProducts = BACKGROUND_IDS
   .map((id) => products.find((p) => p.id === id))
