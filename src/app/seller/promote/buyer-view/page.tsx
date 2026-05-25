@@ -34,7 +34,7 @@ const STREETWEAR_ITEMS: BuyerViewItem[] = [
   },
   {
     id: "bv2",
-    name: "Heavyweight Crewneck",
+    name: "Leather Jacket",
     subtitle: "Washed Black",
     price: 369,
     image: "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg",
@@ -55,14 +55,14 @@ const STREETWEAR_ITEMS: BuyerViewItem[] = [
   },
   {
     id: "bv5",
-    name: "Lightweight Jacket",
+    name: "Yellow Hoodie",
     subtitle: "Black",
     price: 509,
     image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg",
   },
   {
     id: "bv6",
-    name: "Utility Jacket",
+    name: "Relaxed Set",
     subtitle: "Army Green",
     price: 599,
     image: "https://images.pexels.com/photos/6311478/pexels-photo-6311478.jpeg",
