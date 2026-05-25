@@ -2,64 +2,15 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
 import { CloseIcon } from "@/components/icons";
-
-type ProductStatus = "PROMOTED" | "LOW VISIBILITY" | "NEW";
-
-interface DashboardProduct {
-  id: string;
-  name: string;
-  subtitle: string;
-  price: number;
-  views: number;
-  conversionRate: number;
-  baseStatus: ProductStatus;
-  image: string;
-}
-
-const DASHBOARD_PRODUCTS: DashboardProduct[] = [
-  {
-    id: "p1",
-    name: "Bluza z kapturem",
-    subtitle: "Oversize",
-    price: 159,
-    views: 342,
-    conversionRate: 2.1,
-    baseStatus: "PROMOTED",
-    image: "https://images.pexels.com/photos/6311670/pexels-photo-6311670.jpeg?w=80&h=80&fit=crop",
-  },
-  {
-    id: "p2",
-    name: "T-shirt graficzny",
-    subtitle: "Drop #3",
-    price: 89,
-    views: 56,
-    conversionRate: 0.0,
-    baseStatus: "NEW",
-    image: "https://images.pexels.com/photos/1656684/pexels-photo-1656684.jpeg?w=80&h=80&fit=crop",
-  },
-  {
-    id: "p3",
-    name: "Longsleeve",
-    subtitle: "Washed Black",
-    price: 119,
-    views: 189,
-    conversionRate: 0.5,
-    baseStatus: "LOW VISIBILITY",
-    image: "https://images.pexels.com/photos/1124468/pexels-photo-1124468.jpeg?w=80&h=80&fit=crop",
-  },
-  {
-    id: "p4",
-    name: "Bluza zip",
-    subtitle: "Cream",
-    price: 189,
-    views: 97,
-    conversionRate: 1.2,
-    baseStatus: "LOW VISIBILITY",
-    image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?w=80&h=80&fit=crop",
-  },
-];
+import {
+  type ProductStatus,
+  type DashboardProduct,
+  DASHBOARD_PRODUCTS,
+} from "@/data/seller-dashboard";
 
 const STATUS_STYLES: Record<ProductStatus, string> = {
   "PROMOTED":       "bg-charcoal text-white",
@@ -117,7 +68,7 @@ function ActiveCampaignModal({ product, day, onClose }: ActiveCampaignModalProps
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[12px] font-medium uppercase tracking-widest text-charcoal leading-tight">
-              {product.name} / {product.subtitle}
+              {product.name}{product.subtitle ? ` / ${product.subtitle}` : ""}
             </p>
             <p className="text-[11px] uppercase tracking-widest text-warm-gray mt-0.5">
               {product.price} zł
@@ -202,6 +153,8 @@ interface CampaignModalProps {
 
 function CampaignModal({ product, onActivate, onClose }: CampaignModalProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const [step, setStep] = useState<"form" | "confirmed">("form");
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -214,7 +167,9 @@ function CampaignModal({ product, onActivate, onClose }: CampaignModalProps) {
     };
   }, [onClose]);
 
-  const commission = (product.price * 0.05).toFixed(2).replace(".", ",");
+  const priceFmt = (n: number) => n.toFixed(2).replace(".", ",");
+  const commission = +(product.price * 0.05).toFixed(2);
+  const netAmount = +(product.price - commission).toFixed(2);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -245,7 +200,7 @@ function CampaignModal({ product, onActivate, onClose }: CampaignModalProps) {
           </div>
           <div>
             <p className="text-[12px] font-medium uppercase tracking-widest text-charcoal leading-tight">
-              {product.name} / {product.subtitle}
+              {product.name}{product.subtitle ? ` / ${product.subtitle}` : ""}
             </p>
             <p className="text-[11px] uppercase tracking-widest text-warm-gray mt-0.5">
               {product.price} zł
@@ -253,48 +208,113 @@ function CampaignModal({ product, onActivate, onClose }: CampaignModalProps) {
           </div>
         </div>
 
-        <div className="p-6 flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <p className="text-[14px] font-light text-charcoal leading-snug">
-              Twoje produkty wyżej. Płacisz tylko gdy sprzedasz.
-            </p>
-            <p className="text-[13px] text-charcoal">
-              Sprzedasz w tym czasie?{" "}
-              <span className="font-medium">Płacisz 5% prowizji od transakcji</span>
-            </p>
+        {step === "form" ? (
+          <div className="p-6 flex flex-col gap-5">
+            {/* Headline + value prop */}
+            <div className="flex flex-col gap-2">
+              <p className="text-[15px] font-light text-charcoal leading-snug">
+                Zwiększ sprzedaż tego produktu
+              </p>
+              <p className="text-[13px] text-warm-gray leading-relaxed">
+                Promowane produkty pojawiają się wyżej w wynikach wyszukiwania
+                i docierają do większej liczby kupujących.
+              </p>
+            </div>
+
+            {/* Pricing section */}
+            <div className="bg-cream-light border border-border p-4 flex flex-col gap-2">
+              <p className="text-[11px] font-medium uppercase tracking-widest text-charcoal">
+                Płacisz tylko wtedy, gdy sprzedasz
+              </p>
+              <p className="text-[12px] text-warm-gray leading-relaxed">
+                Opłata promocyjna jest naliczana wyłącznie po sprzedaży produktu dzięki promocji.
+              </p>
+              <p className="text-[20px] font-light text-charcoal mt-1">5% wartości transakcji</p>
+            </div>
+
+            {/* Example section */}
+            <div className="border border-border p-4 flex flex-col gap-2.5">
+              <p className="text-[10px] uppercase tracking-widest text-warm-gray">Przykład</p>
+              <div className="flex items-baseline justify-between">
+                <span className="text-[12px] text-warm-gray">Cena produktu</span>
+                <span className="text-[12px] text-charcoal tabular-nums">{product.price} zł</span>
+              </div>
+              <div className="flex items-baseline justify-between">
+                <span className="text-[12px] text-warm-gray">Sprzedasz produkt za</span>
+                <span className="text-[12px] text-charcoal tabular-nums">{product.price} zł</span>
+              </div>
+              <div className="flex items-baseline justify-between">
+                <span className="text-[12px] text-warm-gray">Opłata promocyjna</span>
+                <span className="text-[12px] text-charcoal tabular-nums">{priceFmt(commission)} zł</span>
+              </div>
+              <div className="h-px bg-border my-0.5" />
+              <div className="flex items-baseline justify-between">
+                <span className="text-[12px] font-medium text-charcoal">Otrzymujesz</span>
+                <span className="text-[12px] font-medium text-charcoal tabular-nums">{priceFmt(netAmount)} zł</span>
+              </div>
+            </div>
+
+            {/* Risk reduction — most prominent element */}
+            <div className="bg-charcoal p-4 text-center">
+              <p className="text-[12px] font-medium text-white leading-snug">
+                Nie sprzedasz w ciągu 10 dni promocji? Nie zapłacisz nic.
+              </p>
+            </div>
+
+            {/* CTA */}
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={() => {
+                  posthog.capture("seller_campaign_activated", {
+                    product_id: product.id,
+                    product_name: product.name,
+                    product_price: product.price,
+                  });
+                  // onActivate is deferred to confirmation step so the parent
+                  // doesn't immediately switch us to ActiveCampaignModal
+                  setStep("confirmed");
+                }}
+                className="w-full py-3.5 bg-charcoal text-white text-[10px] font-medium uppercase tracking-widest hover:bg-charcoal-light transition-colors"
+              >
+                AKTYWUJ PROMOCJĘ
+              </button>
+              <p className="text-[11px] text-center text-warm-gray">
+                Promocja zakończy się automatycznie po 10 dniach.
+              </p>
+            </div>
           </div>
+        ) : (
+          /* Confirmation step */
+          <div className="p-6 flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+              <p className="text-[15px] font-light text-charcoal">Promocja aktywowana</p>
+              <p className="text-[13px] text-warm-gray leading-relaxed">
+                Twój produkt będzie wyróżniony w wynikach wyszukiwania i oznaczony jako Promowane.
+              </p>
+            </div>
 
-          <div className="bg-cream-light border border-border p-4">
-            <p className="text-[10px] uppercase tracking-widest text-warm-gray mb-2">
-              Przykład
-            </p>
-            <p className="text-[13px] text-charcoal">
-              {product.name} {product.price} zł{" "}
-              <span className="text-warm-gray">→</span>{" "}
-              prowizja tylko jeśli sprzedasz:{" "}
-              <span className="font-medium">{commission} zł</span>
-            </p>
+            <button
+              onClick={() => {
+                onActivate(product.id);
+                onClose();
+                router.push("/seller/promote/buyer-view");
+              }}
+              className="w-full py-3.5 bg-charcoal text-white text-[10px] font-medium uppercase tracking-widest hover:bg-charcoal-light transition-colors"
+            >
+              ZOBACZ JAK WIDZĄ TO KUPUJĄCY
+            </button>
+
+            <button
+              onClick={() => {
+                onActivate(product.id);
+                onClose();
+              }}
+              className="w-full py-3 border border-charcoal/30 text-charcoal text-[10px] font-medium uppercase tracking-widest hover:border-charcoal transition-colors"
+            >
+              Wróć do panelu
+            </button>
           </div>
-
-          <p className="text-[13px] font-medium text-charcoal">
-            Nie sprzedasz? Nie płacisz nic.
-          </p>
-
-          <button
-            onClick={() => {
-              posthog.capture("seller_campaign_activated", {
-                product_id: product.id,
-                product_name: product.name,
-                product_price: product.price,
-              });
-              onActivate(product.id);
-              onClose();
-            }}
-            className="mt-1 w-full py-3.5 bg-charcoal text-white text-[10px] font-medium uppercase tracking-widest hover:bg-charcoal-light transition-colors"
-          >
-            AKTYWUJ PROMOCJĘ
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -322,14 +342,15 @@ export default function SellerPromotePage() {
           <h1 className="text-[22px] font-light text-charcoal mb-1.5">
             Witaj ponownie, Kamil 👋
           </h1>
+          <p className="text-[12px] text-warm-gray mb-1">
+            Sprzedajesz streetwear na FashionHero od 2 miesięcy.
+          </p>
           <p className="text-[12px] text-warm-gray flex flex-wrap">
-            <span>streetwear — t-shirty i bluzy</span>
-            <span className="px-2 text-warm-gray/30">·</span>
-            <span>2 miesiące na FashionHero</span>
-            <span className="px-2 text-warm-gray/30">·</span>
             <span>12 zamówień</span>
             <span className="px-2 text-warm-gray/30">·</span>
             <span>4 aktywne produkty</span>
+            <span className="px-2 text-warm-gray/30">·</span>
+            <span>{Object.keys(campaigns).length} aktywna kampania</span>
           </p>
         </div>
       </div>
@@ -351,7 +372,7 @@ export default function SellerPromotePage() {
           <div className="grid grid-cols-[56px_1fr_110px_110px_220px_160px] text-[9px] uppercase tracking-widest text-warm-gray border-b border-border px-4 py-3 bg-cream-light">
             <span />
             <span className="pl-3">Produkt</span>
-            <span className="text-right">Wyświetlenia</span>
+            <span className="text-right">Wyświetlenia (30 dni)</span>
             <span className="text-right">Konwersja</span>
             <span className="text-center">Status</span>
             <span />
@@ -385,7 +406,7 @@ export default function SellerPromotePage() {
                     {product.name}
                   </p>
                   <p className="text-[10px] uppercase tracking-widest text-warm-gray mt-0.5">
-                    {product.subtitle} · {product.price} zł
+                    {product.subtitle ? `${product.subtitle} · ` : ""}{product.price} zł
                   </p>
                 </div>
 
@@ -411,17 +432,22 @@ export default function SellerPromotePage() {
                       </span>
                     )}
                   </div>
+                  {status === "LOW VISIBILITY" && (
+                    <p className="text-[9px] text-warm-gray text-center leading-tight max-w-[160px]">
+                      Mniej wyświetleń niż podobne produkty
+                    </p>
+                  )}
                   {isActive && (
                     <div className="text-center leading-relaxed">
                       <p className="text-[9px] uppercase tracking-widest font-medium text-charcoal">
-                        Dzień {day} z 10
+                        Promocja aktywna — dzień {day} z 10
                       </p>
                     </div>
                   )}
                 </div>
 
                 {/* Action */}
-                <div className="flex justify-end">
+                <div className="flex flex-col items-end gap-2">
                   <button
                     onClick={() => setModalProductId(product.id)}
                     className={`text-[9px] font-medium uppercase tracking-widest border px-4 py-2 transition-colors whitespace-nowrap ${
@@ -430,8 +456,16 @@ export default function SellerPromotePage() {
                         : "border-charcoal text-charcoal hover:bg-charcoal hover:text-white"
                     }`}
                   >
-                    {isActive ? "Zarządzaj" : "Promuj produkt"}
+                    {isActive ? "Zarządzaj" : "Zwiększ widoczność"}
                   </button>
+                  {isActive && (
+                    <Link
+                      href={`/seller/promote/buyer-view?product=${product.id}`}
+                      className="text-[9px] text-warm-gray hover:text-charcoal transition-colors whitespace-nowrap"
+                    >
+                      👁 Zobacz jako kupujący
+                    </Link>
+                  )}
                 </div>
               </div>
             );
@@ -461,13 +495,18 @@ export default function SellerPromotePage() {
                       {product.name}
                     </p>
                     <p className="text-[10px] uppercase tracking-widest text-warm-gray">
-                      {product.subtitle} · {product.price} zł
+                      {product.subtitle ? `${product.subtitle} · ` : ""}{product.price} zł
                     </p>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span className={`text-[9px] font-medium uppercase tracking-widest px-2.5 py-1 ${STATUS_STYLES[status]}`}>
                       {status}
                     </span>
+                    {status === "LOW VISIBILITY" && (
+                      <p className="text-[9px] text-warm-gray text-right leading-tight max-w-[120px]">
+                        Mniej wyświetleń niż podobne produkty
+                      </p>
+                    )}
                     {isActive && (
                       <>
                         <span className="flex items-center gap-1">
@@ -493,16 +532,26 @@ export default function SellerPromotePage() {
                     </p>
                   </div>
                 </div>
-                <button
-                  onClick={() => setModalProductId(product.id)}
-                  className={`w-full text-[9px] font-medium uppercase tracking-widest border px-4 py-2.5 transition-colors ${
-                    isActive
-                      ? "border-charcoal/30 text-warm-gray hover:border-charcoal hover:text-charcoal"
-                      : "border-charcoal text-charcoal hover:bg-charcoal hover:text-white"
-                  }`}
-                >
-                  {isActive ? "Zarządzaj" : "Promuj produkt"}
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => setModalProductId(product.id)}
+                    className={`w-full text-[9px] font-medium uppercase tracking-widest border px-4 py-2.5 transition-colors ${
+                      isActive
+                        ? "border-charcoal/30 text-warm-gray hover:border-charcoal hover:text-charcoal"
+                        : "border-charcoal text-charcoal hover:bg-charcoal hover:text-white"
+                    }`}
+                  >
+                    {isActive ? "Zarządzaj" : "Zwiększ widoczność"}
+                  </button>
+                  {isActive && (
+                    <Link
+                      href="/seller/promote/buyer-view"
+                      className="w-full text-center text-[9px] text-warm-gray hover:text-charcoal transition-colors py-1"
+                    >
+                      👁 Zobacz jako kupujący
+                    </Link>
+                  )}
+                </div>
               </div>
             );
           })}
