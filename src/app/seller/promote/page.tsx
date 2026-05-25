@@ -39,10 +39,10 @@ function ActiveCampaignModal({ product, day, onClose }: ActiveCampaignModalProps
   }, [onClose]);
 
   const totalDays = 10;
-  const soldCount = 3;
+  const soldCount = Math.round((product.views * product.conversionRate) / 100);
   const revenue = soldCount * product.price;
-  const commissionPerItem = +(product.price * 0.05).toFixed(2);
-  const totalCommission = +(commissionPerItem * soldCount).toFixed(2);
+  const totalCommission = +(revenue * 0.05).toFixed(2);
+  const sellerEarnings = +(revenue - totalCommission).toFixed(2);
   const fmt = (n: number) => n.toFixed(2).replace(".", ",");
 
   return (
@@ -93,19 +93,21 @@ function ActiveCampaignModal({ product, day, onClose }: ActiveCampaignModalProps
             </div>
           </div>
 
-          {/* Campaign results */}
+          {/* Campaign results — seller-centric breakdown */}
           <div className="bg-cream-light border border-border p-4 flex flex-col gap-3">
             <p className="text-[10px] uppercase tracking-widest text-warm-gray">Wyniki kampanii</p>
-            <p className="text-[13px] text-charcoal">{soldCount} sprzedane bluzy</p>
             <div className="flex items-baseline justify-between">
-              <span className="text-[13px] text-charcoal">Przychód z kampanii</span>
+              <span className="text-[13px] text-warm-gray">Przychód wygenerowany</span>
               <span className="text-[13px] font-medium text-charcoal tabular-nums">{revenue} zł</span>
             </div>
             <div className="flex items-baseline justify-between">
-              <span className="text-[13px] text-warm-gray">
-                Prowizja FashionHero ({soldCount} × {fmt(commissionPerItem)} zł)
-              </span>
+              <span className="text-[13px] text-warm-gray">Koszt promocji</span>
               <span className="text-[13px] text-warm-gray tabular-nums">{fmt(totalCommission)} zł</span>
+            </div>
+            <div className="h-px bg-border" />
+            <div className="flex items-baseline justify-between">
+              <span className="text-[13px] font-medium text-charcoal">Otrzymujesz</span>
+              <span className="text-[13px] font-medium text-charcoal tabular-nums">{fmt(sellerEarnings)} zł</span>
             </div>
           </div>
 
@@ -118,9 +120,15 @@ function ActiveCampaignModal({ product, day, onClose }: ActiveCampaignModalProps
               </p>
             </div>
             <div>
-              <p className="text-[9px] uppercase tracking-widest text-warm-gray mb-1">Sprzedaż</p>
+              <p className="text-[9px] uppercase tracking-widest text-warm-gray mb-1">Konwersja</p>
               <p className="text-[18px] font-light text-charcoal tabular-nums">
                 {product.conversionRate.toFixed(1)}%
+              </p>
+            </div>
+            <div>
+              <p className="text-[9px] uppercase tracking-widest text-warm-gray mb-1">Sprzedano</p>
+              <p className="text-[18px] font-light text-charcoal tabular-nums">
+                {soldCount}
               </p>
             </div>
           </div>
